@@ -1,4 +1,17 @@
-// ✅ src/styles/main.scss
 
-@use "@/styles/variables" as *;
+
+
+
+
+@use "@/styles/variables" as variables;
 @use '@/styles/global' as *;
+@use '@/styles/mixins' as mixins;
+
+%vertical-nav-item {
+  margin-block: 0;
+  margin-inline: variables.$vertical-nav-horizontal-spacing;
+  padding-block: 0;
+  padding-inline: variables.$vertical-nav-horizontal-padding;
+  white-space: nowrap;
+  
+}

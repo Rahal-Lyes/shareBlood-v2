@@ -1,15 +1,11 @@
 <template>
-  <VApp>
-    <VMain class="pa-4">
-      <VBtn>Je suis stylé par défaut</VBtn>
-      <VTextField label="Nom" />
-    </VMain>
-  </VApp>
+  <DefaultLayout>
+    <template #default>
+      <RouterView />
+    </template>
+  </DefaultLayout>
 </template>
 
-
-<style lang="scss" scoped>
-.v-btn {
-  color: $error; // ✅ ça doit maintenant fonctionner
-}
-</style>
+<script setup>
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
+</script>
