@@ -8,6 +8,7 @@
     class="custom-drawer"
     :permanent="!mdAndDown"
     :temporary="mdAndDown"
+
   >
     <div class="drawer-header">
       <div class="logo-section">
@@ -45,4 +46,6 @@ const drawer = defineModel('drawer', { type: Boolean })
 watch(mdAndDown, val => {
   if (!val) drawer.value = true
 })
+
+
 </script>

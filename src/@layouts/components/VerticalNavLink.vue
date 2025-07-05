@@ -39,7 +39,7 @@ defineProps({
     justify-content: space-between;
     padding: 12px 16px;
     text-decoration: none;
-    color: #000000;
+    color:var(--v-theme-secondary);
     font-weight: 500;
     font-size: 0.9rem;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);

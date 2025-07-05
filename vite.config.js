@@ -20,6 +20,7 @@ export default defineConfig({
       additionalData: `
           @use "@/styles/variables.scss" as *;
           @use "@/styles/mixins.scss" as *;
+          @use "@/styles/theme-examples.scss" as *;
           @use "@/styles/global.scss" as *;
           @use "@/styles/main.scss" as *;
         `

@@ -51,7 +51,7 @@ const toggleGroup = () => {
   
   &:hover {
     background-color: rgba(0, 0, 0, 0.02);
-  }
+  } 
   
   .group-header {
     display: flex;

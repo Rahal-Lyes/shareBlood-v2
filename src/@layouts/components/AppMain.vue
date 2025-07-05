@@ -2,7 +2,7 @@
   <VMain class="main-content">
     <div class="content-wrapper">
       <div class="page-container">
-        <slot />
+        <slot name="main"/>
       </div>
     </div>
   </VMain>

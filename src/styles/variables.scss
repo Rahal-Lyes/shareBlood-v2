@@ -1,11 +1,39 @@
-// ✅ src/styles/_variables.scss
+// Variables de thème Vuetify
+// Ces variables sont automatiquement générées par Vuetify
 
+// Couleurs de base
 $primary: #1E88E5;
 $secondary: #FFC107;
 $error: #FF5252;
 $success: #4CAF50;
 
+// Variables de thème Vuetify (utilisables dans SCSS)
+$theme-primary: var(--v-theme-primary);
+$theme-secondary: var(--v-theme-secondary);
+$theme-background: var(--v-theme-background);
+$theme-surface: var(--v-theme-surface);
+$theme-on-primary: var(--v-theme-on-primary);
+$theme-on-surface: var(--v-theme-on-surface);
+$theme-on-background: var(--v-theme-on-background);
+
+// Variables personnalisées
+$theme-grey-50: var(--v-theme-grey-50);
+$theme-grey-100: var(--v-theme-grey-100);
+$theme-grey-200: var(--v-theme-grey-200);
+$theme-grey-300: var(--v-theme-grey-300);
+$theme-grey-400: var(--v-theme-grey-400);
+$theme-grey-500: var(--v-theme-grey-500);
+$theme-grey-600: var(--v-theme-grey-600);
+$theme-grey-700: var(--v-theme-grey-700);
+$theme-grey-800: var(--v-theme-grey-800);
+$theme-grey-900: var(--v-theme-grey-900);
+
+// Variables d'opacité
+$theme-medium-emphasis-opacity: var(--v-medium-emphasis-opacity);
+$theme-disabled-opacity: var(--v-disabled-opacity);
 
 // This is used by nav items & nav header
 $vertical-nav-horizontal-spacing: 0 1.125rem !default;
 $vertical-nav-horizontal-padding: 1.375rem 1rem !default;
+
+

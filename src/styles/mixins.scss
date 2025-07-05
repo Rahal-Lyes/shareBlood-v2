@@ -44,3 +44,14 @@
     }
   }
 }
+
+.custom-element {
+  background-color: var(--v-theme-primary-blue);
+  color: var(--v-theme-grey-50);
+}
+
+.my-component {
+  background-color: var(--v-theme-background);
+  color: var(--v-theme-on-background);
+  border: 1px solid var(--v-theme-primary);
+}
