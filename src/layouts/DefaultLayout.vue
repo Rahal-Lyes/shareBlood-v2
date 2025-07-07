@@ -13,8 +13,7 @@
 
     <AppMain>
       <template #main>
-
-        <VBtn class="custom-fieldset">click</VBtn>
+<router-view/>
         
         
       </template>
@@ -43,11 +42,5 @@ watch(mdAndDown, (val) => {
   if (!val) drawer.value = true;
 });
 </script>
-<style>
 
 
-.enhanced-layout {
-  background-color: aqua;
-  width: 100%;
-  height: 100%;
-}</style>

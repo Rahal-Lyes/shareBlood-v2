@@ -64,3 +64,53 @@
   background-color: rgba(var(--v-theme-#{$css-var-name}), #{$opacity});
 }
 
+
+@mixin nav-spacing($horizontal: var(--custom-spacing-horizontal), $vertical: 1rem) {
+  padding: $vertical $horizontal;
+}
+
+@mixin flex-center($direction: row, $gap: 0) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin flex-between($gap: 0) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gap;
+}
+
+@mixin text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin transition-smooth($property: all, $duration: 0.3s, $timing: ease-in-out) {
+  transition: $property $duration $timing;
+}
+
+@mixin border-radius($radius: 8px) {
+  border-radius: $radius;
+}
+
+@mixin hover-elevation($elevation: 2) {
+  @include transition-smooth(box-shadow);
+  &:hover {
+    box-shadow: 0 #{$elevation * 2}px #{$elevation * 4}px rgba(var(--v-theme-on-surface), 0.12);
+  }
+}
+
+@mixin gradient-background($color1, $color2, $angle: 135deg) {
+  background: linear-gradient($angle, $color1, $color2);
+}
+
+@mixin glass-effect($opacity: 0.1) {
+  backdrop-filter: blur(10px);
+  background: rgba(var(--v-theme-surface), $opacity);
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}

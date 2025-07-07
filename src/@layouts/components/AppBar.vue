@@ -105,7 +105,7 @@
         <slot name="navbar" />
       </div>
     </div>
-
+  hello
     <!-- Search Overlay -->
     <VExpandTransition>
       <div v-if="searchVisible" class="search-overlay">
@@ -126,8 +126,10 @@
           @click="toggleSearch"
           class="search-close"
         >
+      
           <VIcon>mdi-close</VIcon>
         </VBtn>
+        
       </div>
     </VExpandTransition>
   </VAppBar>
@@ -193,7 +195,8 @@ function onToggleTheme() {
 @use "@/styles/variables.scss" as variables;
 
 .layout-navbar {
-  background: rgba(var(--v-theme-surface)) !important;
+  background: rgba(var(--v-theme-background)) !important;
+  color:rgba(var(--v-theme-on-primary)) !important;
   border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -223,6 +226,7 @@ function onToggleTheme() {
   padding: 0 1.5rem;
   position: relative;
   z-index: 1;
+  
 }
 
 .navbar-brand {

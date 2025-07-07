@@ -34,3 +34,12 @@ function hasGroupPermissions(group) {
   return group.children.some((child) => isAuthorizedRoute(child));
 }
 </script>
+
+<style scoped>
+.nav-items {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background-color: rgba(var(--v-theme-background), 1);
+}
+</style>

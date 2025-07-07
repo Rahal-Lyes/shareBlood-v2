@@ -1,28 +1,38 @@
 <template>
   <li class="nav-link">
-    <RouterLink :to="item.to" class="nav-link-item" :class="{ 'has-badge': item.badge }">
+    <RouterLink
+      :to="item.to"
+      class="nav-link-item"
+      :class="[{ 'has-badge': item.badge }, `variant-${item.variant || 'primary'}`]"
+    >
       <div class="link-content">
         <VIcon :icon="item.icon" class="nav-item-icon" />
         <span class="nav-item-title">{{ item.title }}</span>
       </div>
-      
-      <!-- Badge optionnel -->
-      <span v-if="item.badge" class="nav-badge" :class="`badge-${item.badgeVariant || 'primary'}`">
+
+      <span
+        v-if="item.badge"
+        class="nav-badge"
+        :class="`badge-${item.badgeVariant || 'primary'}`"
+      >
         {{ item.badge }}
       </span>
-      
-      <!-- Indicateur de lien externe -->
-      <VIcon v-if="item.external" icon="mdi-open-in-new" class="external-icon" />
+
+      <VIcon
+        v-if="item.external"
+        icon="mdi-open-in-new"
+        class="external-icon"
+      />
     </RouterLink>
   </li>
 </template>
 
 <script setup>
 defineProps({
-  item: { 
-    type: Object, 
-    required: true 
-  }
+  item: {
+    type: Object,
+    required: true,
+  },
 });
 </script>
 
@@ -32,21 +42,22 @@ defineProps({
   border-radius: 8px;
   overflow: hidden;
   position: relative;
-  
+  animation: slideInFromLeft 0.3s ease forwards;
+
   .nav-link-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
     text-decoration: none;
-    color:var(--v-theme-secondary);
+    color: rgba(var(--v-theme-on-surface), 0.7);
     font-weight: 500;
     font-size: 0.9rem;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
     border-radius: 8px;
+    position: relative;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    
+    transition: all 0.25s ease;
+
     &::before {
       content: '';
       position: absolute;
@@ -54,12 +65,12 @@ defineProps({
       top: 0;
       bottom: 0;
       width: 3px;
-      background: linear-gradient(180deg, #3b82f6, #1d4ed8);
+      background: linear-gradient(180deg, rgba(var(--v-theme-primary), 1), rgba(var(--v-theme-primary-darken-2, var(--v-theme-primary)), 1));
       transform: scaleY(0);
       transition: transform 0.3s ease;
       border-radius: 0 2px 2px 0;
     }
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -67,33 +78,33 @@ defineProps({
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.05) 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(var(--v-theme-primary), 0.05) 50%, transparent 100%);
       opacity: 0;
       transition: opacity 0.3s ease;
       border-radius: 8px;
     }
-    
+
     .link-content {
       display: flex;
       align-items: center;
       gap: 12px;
       flex: 1;
     }
-    
+
     .nav-item-icon {
       width: 20px;
       height: 20px;
       transition: all 0.25s ease;
-      color: #000000;
+      color: rgba(var(--v-theme-on-surface), 0.7);
       flex-shrink: 0;
     }
-    
+
     .nav-item-title {
-      transition: all 0.25s ease;
       letter-spacing: 0.025em;
       line-height: 1.4;
+      transition: all 0.25s ease;
     }
-    
+
     .nav-badge {
       padding: 2px 8px;
       border-radius: 12px;
@@ -101,326 +112,109 @@ defineProps({
       font-weight: 600;
       letter-spacing: 0.05em;
       transition: all 0.25s ease;
-      
+
       &.badge-primary {
-        background: #dbeafe;
-        color: #1e40af;
+        background: rgba(var(--v-theme-primary), 0.15);
+        color: rgba(var(--v-theme-primary-darken-2, var(--v-theme-primary)), 1);
       }
-      
       &.badge-success {
-        background: #d1fae5;
-        color: #065f46;
+        background: rgba(var(--v-theme-success), 0.15);
+        color: rgba(var(--v-theme-success-darken-1, var(--v-theme-success)), 1);
       }
-      
       &.badge-warning {
-        background: #fef3c7;
-        color: #92400e;
+        background: rgba(var(--v-theme-warning), 0.15);
+        color: rgba(var(--v-theme-warning-darken-1, var(--v-theme-warning)), 1);
       }
-      
       &.badge-danger {
-        background: #fee2e2;
-        color: #991b1b;
+        background: rgba(var(--v-theme-error), 0.15);
+        color: rgba(var(--v-theme-error-darken-1, var(--v-theme-error)), 1);
       }
-      
       &.badge-info {
-        background: #e0f2fe;
-        color: #0c4a6e;
+        background: rgba(var(--v-theme-info), 0.15);
+        color: rgba(var(--v-theme-info-darken-1, var(--v-theme-info)), 1);
       }
     }
-    
+
     .external-icon {
       width: 14px;
       height: 14px;
-      color: #9ca3af;
+      color: rgba(var(--v-theme-on-surface), 0.5);
       transition: all 0.25s ease;
       flex-shrink: 0;
     }
-    
-    // États de hover
+
     &:hover {
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-      color: #374151;
+      background: linear-gradient(135deg, rgba(var(--v-theme-surface), 1), rgba(var(--v-theme-surface), 0.95));
+      color: rgba(var(--v-theme-on-surface), 0.9);
       transform: translateX(4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      
+      box-shadow: 0 4px 12px rgba(var(--v-theme-on-surface), 0.1);
+
       &::before {
         transform: scaleY(1);
       }
-      
+
       &::after {
         opacity: 1;
       }
-      
+
       .nav-item-icon {
-        color: #3b82f6;
+        color: rgba(var(--v-theme-primary), 1);
         transform: scale(1.1);
       }
-      
+
       .nav-item-title {
-        color: #1f2937;
+        color: rgba(var(--v-theme-on-surface), 1);
         font-weight: 600;
       }
-      
+
       .nav-badge {
         transform: scale(1.05);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
-      
+
       .external-icon {
-        color: #3b82f6;
+        color: rgba(var(--v-theme-primary), 1);
         transform: translateX(2px) translateY(-2px);
       }
     }
-    
-    // État actif (lien actuel)
+
     &.router-link-active,
     &.router-link-exact-active {
-      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-      color: #1e40af;
-      font-weight: 600;
-      
+      background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.15), rgba(var(--v-theme-primary), 0.1));
+      color: rgba(var(--v-theme-primary), 1);
+
       &::before {
         transform: scaleY(1);
-        background: linear-gradient(180deg, #2563eb, #1d4ed8);
+        background: linear-gradient(180deg, rgba(var(--v-theme-primary), 1), rgba(var(--v-theme-primary-darken-2, var(--v-theme-primary)), 1));
       }
-      
+
       .nav-item-icon {
-        color: #2563eb;
+        color: rgba(var(--v-theme-primary), 1);
         transform: scale(1.05);
       }
-      
+
       .nav-item-title {
-        color: #1e40af;
+        color: rgba(var(--v-theme-primary), 1);
       }
-      
+
       .nav-badge {
-        background: #1e40af;
-        color: white;
-        box-shadow: 0 2px 4px rgba(30, 64, 175, 0.3);
+        background: rgba(var(--v-theme-primary), 1);
+        color: rgba(var(--v-theme-on-primary), 1);
       }
-      
+
       .external-icon {
-        color: #2563eb;
+        color: rgba(var(--v-theme-primary), 1);
       }
     }
-    
-    // État de focus pour l'accessibilité
+
     &:focus {
-      outline: 2px solid #3b82f6;
+      outline: 2px solid rgba(var(--v-theme-primary), 0.8);
       outline-offset: 2px;
     }
-    
-    // Animation au clic
+
     &:active {
       transform: translateX(2px) scale(0.98);
     }
   }
-}
-
-// Variantes de couleurs pour les liens
-.nav-link {
-  &.variant-success {
-    .nav-link-item {
-      &::before {
-        background: linear-gradient(180deg, #10b981, #059669);
-      }
-      
-      &:hover {
-        .nav-item-icon {
-          color: #10b981;
-        }
-      }
-      
-      &.router-link-active,
-      &.router-link-exact-active {
-        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-        color: #065f46;
-        
-        .nav-item-icon {
-          color: #059669;
-        }
-        
-        .nav-item-title {
-          color: #065f46;
-        }
-      }
-    }
-  }
-  
-  &.variant-warning {
-    .nav-link-item {
-      &::before {
-        background: linear-gradient(180deg, #f59e0b, #d97706);
-      }
-      
-      &:hover {
-        .nav-item-icon {
-          color: #f59e0b;
-        }
-      }
-      
-      &.router-link-active,
-      &.router-link-exact-active {
-        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-        color: #92400e;
-        
-        .nav-item-icon {
-          color: #d97706;
-        }
-        
-        .nav-item-title {
-          color: #92400e;
-        }
-      }
-    }
-  }
-  
-  &.variant-danger {
-    .nav-link-item {
-      &::before {
-        background: linear-gradient(180deg, #ef4444, #dc2626);
-      }
-      
-      &:hover {
-        .nav-item-icon {
-          color: #ef4444;
-        }
-      }
-      
-      &.router-link-active,
-      &.router-link-exact-active {
-        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-        color: #991b1b;
-        
-        .nav-item-icon {
-          color: #dc2626;
-        }
-        
-        .nav-item-title {
-          color: #991b1b;
-        }
-      }
-    }
-  }
-}
-
-// États de chargement
-.nav-link {
-  &.loading {
-    .nav-link-item {
-      pointer-events: none;
-      opacity: 0.6;
-      
-      .nav-item-icon {
-        animation: pulse 2s infinite;
-      }
-    }
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-// Mode sombre
-@media (prefers-color-scheme: dark) {
-  .nav-link {
-    .nav-link-item {
-      color: #9ca3af;
-      
-      &:hover {
-        background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
-        color: #d1d5db;
-        
-        .nav-item-title {
-          color: #f3f4f6;
-        }
-      }
-      
-      &.router-link-active,
-      &.router-link-exact-active {
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-        color: #bfdbfe;
-        
-        .nav-item-title {
-          color: #bfdbfe;
-        }
-        
-        .nav-badge {
-          background: #bfdbfe;
-          color: #1e40af;
-        }
-      }
-      
-      .nav-item-icon {
-        color: #6b7280;
-      }
-      
-      .nav-badge {
-        &.badge-primary {
-          background: #1e3a8a;
-          color: #bfdbfe;
-        }
-        
-        &.badge-success {
-          background: #065f46;
-          color: #a7f3d0;
-        }
-        
-        &.badge-warning {
-          background: #92400e;
-          color: #fde68a;
-        }
-        
-        &.badge-danger {
-          background: #991b1b;
-          color: #fecaca;
-        }
-      }
-    }
-  }
-}
-
-// Responsive
-@media (max-width: 768px) {
-  .nav-link {
-    .nav-link-item {
-      padding: 10px 14px;
-      
-      .link-content {
-        gap: 10px;
-      }
-      
-      .nav-item-icon {
-        width: 18px;
-        height: 18px;
-      }
-      
-      .nav-item-title {
-        font-size: 0.85rem;
-      }
-      
-      .nav-badge {
-        font-size: 0.65rem;
-        padding: 1px 6px;
-      }
-      
-      .external-icon {
-        width: 12px;
-        height: 12px;
-      }
-    }
-  }
-}
-
-// Animation d'entrée pour les liens
-.nav-link {
-  animation: slideInFromLeft 0.3s ease forwards;
 }
 
 @keyframes slideInFromLeft {
@@ -431,24 +225,6 @@ defineProps({
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-// Délai progressif pour les liens multiples
-.nav-link:nth-child(1) { animation-delay: 0.05s; }
-.nav-link:nth-child(2) { animation-delay: 0.1s; }
-.nav-link:nth-child(3) { animation-delay: 0.15s; }
-.nav-link:nth-child(4) { animation-delay: 0.2s; }
-.nav-link:nth-child(5) { animation-delay: 0.25s; }
-.nav-link:nth-child(6) { animation-delay: 0.3s; }
-.nav-link:nth-child(7) { animation-delay: 0.35s; }
-.nav-link:nth-child(8) { animation-delay: 0.4s; }
-
-// Effet de survol pour les groupes de liens
-.nav-group:hover .nav-link {
-  .nav-link-item:not(:hover) {
-    opacity: 0.7;
-    transform: scale(0.98);
   }
 }
 </style>

@@ -14,7 +14,7 @@ const theme = {
         'on-primary': '#FFFFFF',
         'on-success': '#FFFFFF',
         'on-warning': '#FFFFFF',
-        'background': '#eeeeee',
+        'background': '#FFFFFF',
         'on-background': '#1d1921',
         'surface' : "#FFFFFF",
         'on-surface': '#000000',
