@@ -1,7 +1,7 @@
 <template>
-    <AppNavigationDrawer>
+    <AppNavigationDrawer >
     <template #navigation-drawer-content>
-      <ul class="nav-items">
+      <ul class="nav-items" >
         <template v-for="(item, index) in navItems" :key="index">
           <VerticalNavSectionTitle
             v-if="item.type === 'section'"
@@ -39,3 +39,11 @@ function hasGroupPermissions(group) {
 }
 
 </script>
+<style>
+.nvg{
+  background-color: blue;
+  width: 100px;
+  height: 100px;
+}
+
+</style>

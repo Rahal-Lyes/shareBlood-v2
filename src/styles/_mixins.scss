@@ -55,3 +55,12 @@
   color: var(--v-theme-on-background);
   border: 1px solid var(--v-theme-primary);
 }
+
+
+/// Mixin qui applique une couleur Vuetify avec opacité
+/// @param $css-var-name Le nom de la variable CSS (ex: 'background', 'primary')
+/// @param $opacity Le niveau d'opacité entre 0 et 1
+@mixin color-opacity($css-var-name, $opacity: 1) {
+  background-color: rgba(var(--v-theme-#{$css-var-name}), #{$opacity});
+}
+

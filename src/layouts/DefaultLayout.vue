@@ -3,23 +3,19 @@
     <!-- Sidebar -->
     <AppNavigationDrawer v-model:drawer="drawer">
       <template #navigation-drawer-content>
-        <DrawerContent />
+        <DrawerContent  />
       </template>
     </AppNavigationDrawer>
 
-    <AppBar :drawer="drawer" :mdAndDown="mdAndDown">
-      <template #navbar>
-        <ThemeSwitcher />
-        <VBtn icon="mdi-bell-outline" variant="text" />
-        <VBtn icon="mdi-account" variant="text" />
-      </template>
-    </AppBar>
+    <AppBar v-model:drawer="drawer" :mdAndDown="mdAndDown"/>
+    
+  
 
     <AppMain>
       <template #main>
-        <VBtn class="btn-1">click</VBtn>
+
         <VBtn class="custom-fieldset">click</VBtn>
-          <VBtn>click mmee</VBtn>
+        
         
       </template>
     </AppMain>
@@ -34,7 +30,6 @@ import DrawerContent from "@/@layouts/components/DrawerContent.vue";
 import AppMain from "@/@layouts/components/AppMain.vue";
 import AppFooter from "@/@layouts/components/AppFooter.vue";
 import AppBar from "@/@layouts/components/AppBar.vue";
-import ThemeSwitcher  from '@/components/ThemeSwitcher.vue'
 const props = defineProps({
   breadcrumbs: Array,
   pageTitle: String,
@@ -48,9 +43,11 @@ watch(mdAndDown, (val) => {
   if (!val) drawer.value = true;
 });
 </script>
-<style lang="scss" scoped>
+<style>
 
-.btn-1{
-background-color:var(--v-theme-primary);
-}
-</style>
+
+.enhanced-layout {
+  background-color: aqua;
+  width: 100%;
+  height: 100%;
+}</style>

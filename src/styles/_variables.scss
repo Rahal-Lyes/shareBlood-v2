@@ -1,0 +1,54 @@
+
+
+// Variables d'espacement
+:root {
+  --custom-spacing-horizontal: 1.125rem;
+  --custom-padding-horizontal: 1rem;
+  --vertical-nav-horizontal-spacing: 0 1.125rem;
+  --vertical-nav-horizontal-padding: 1.375rem 1rem;
+}
+
+// src/styles/vuetify-theme.scss
+
+// === Couleurs principales ===
+$primary: rgba(var(--v-theme-primary));
+$on-primary: rgba(var(--v-theme-on-primary));
+
+
+$secondary: rgba(var(--v-theme-secondary));
+$on-secondary: rgba(var(--v-theme-on-secondary));
+
+$info: rgba(var(--v-theme-info));
+$on-info: rgba(var(--v-theme-on-info));
+
+$success: rgba(var(--v-theme-success));
+$on-success: rgba(var(--v-theme-on-success));
+
+$warning: rgba(var(--v-theme-warning));
+$on-warning: rgba(var(--v-theme-on-warning));
+
+$error: rgba(var(--v-theme-error));
+$on-error: rgba(var(--v-theme-on-error));
+
+// === Couleurs de fond ===
+$background: rgba(var(--v-theme-background));
+$on-background: rgba(var(--v-theme-on-background));
+
+$surface: rgba(var(--v-theme-surface));
+$on-surface: rgba(var(--v-theme-on-surface));
+
+// === Variantes générées automatiquement (si activé dans Vuetify) ===
+$primary-lighten-1: rgba(var(--v-theme-primary-lighten-1));
+$primary-lighten-2: rgba(var(--v-theme-primary-lighten-2));
+$primary-lighten-3: rgba(var(--v-theme-primary-lighten-3));
+$primary-darken-1: rgba(var(--v-theme-primary-darken-1));
+$primary-darken-2: rgba(var(--v-theme-primary-darken-2));
+$primary-darken-3: rgba(var(--v-theme-primary-darken-3));
+
+$secondary-lighten-1: rgba(var(--v-theme-secondary-lighten-1));
+$secondary-darken-1: rgba(var(--v-theme-secondary-darken-1));
+
+// === Opacités utiles ===
+$high-emphasis-opacity: var(--v-high-emphasis-opacity);
+$medium-emphasis-opacity: var(--v-medium-emphasis-opacity);
+$disabled-opacity: var(--v-disabled-opacity);

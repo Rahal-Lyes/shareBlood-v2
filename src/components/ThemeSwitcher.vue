@@ -1,6 +1,13 @@
 <template>
   <v-btn @click="onToggleTheme" icon>
     <v-icon>{{ isDark ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon>
+       <VTooltip
+      activator="parent"
+      open-delay="1000"
+      scroll-strategy="close"
+    >
+      <span class="text-capitalize">{{ isDark ? "light":"dark" }}</span>
+  </VTooltip>
   </v-btn>
 </template>
 

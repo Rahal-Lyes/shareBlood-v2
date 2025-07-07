@@ -3,11 +3,15 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
-import vuetify from "vite-plugin-vuetify"; // ← ici
+import vuetify from 'vite-plugin-vuetify'
+
 export default defineConfig({
+  
   plugins: [
     vue(),
-    vuetify({ autoImport: true }), // ← ici
+    vuetify({
+      autoImport: true, // ← utile pour éviter d'importer manuellement les composants
+    }), 
   ],
   resolve: {
     alias: {
@@ -18,12 +22,9 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
       additionalData: `
-          @use "@/styles/variables.scss" as *;
-          @use "@/styles/mixins.scss" as *;
-          @use "@/styles/theme-examples.scss" as *;
-          @use "@/styles/global.scss" as *;
-          @use "@/styles/main.scss" as *;
-        `
+       @use "@/styles/index.scss" as *;
+      `
+        
       },
     },
   },

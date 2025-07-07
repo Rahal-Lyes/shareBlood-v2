@@ -1,19 +1,21 @@
-// src/plugins/vuetify-defaults.js
-
+// plugins/vuetify/defaults.js
 export default {
-  VBtn: {
-    // set v-btn default color to primary
-    color: 'success',
-    style:{
-      paddingLeft: '14px',
-      paddingRight: '14px',
-      overflow: 'hidden',
-      fontSize:"var(--v-font-size)"
-    }
-  },
-  VTextField: {
-    variant: 'outlined',
-    density: 'comfortable',
-    color: 'primary',
-  }
+  // global: {
+  //   ripple: true, // active l'effet ripple par défaut
+  // },
+  // VBtn: {
+  //   color: 'primary',
+  //   variant: 'flat',
+  //   rounded: 'lg',
+  //   elevation: 2,
+  // },
+  // VTextField: {
+  //   variant: 'outlined',
+  //   density: 'comfortable',
+  //   hideDetails: 'auto',
+  // },
+  // VCard: {
+  //   elevation: 4,
+  //   rounded: 'md',
+  // }
 }
