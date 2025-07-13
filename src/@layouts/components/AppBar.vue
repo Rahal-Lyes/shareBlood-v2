@@ -74,32 +74,7 @@
         </VBtn>
 
         <!-- User Profile -->
-        <VMenu offset-y>
-          <template v-slot:activator="{ props }">
-            <VBtn
-              icon
-              variant="text"
-              class="navbar-profile-btn"
-              v-bind="props"
-            >
-              <VAvatar size="32" class="user-avatar">
-                <VIcon>mdi-account</VIcon>
-              </VAvatar>
-            </VBtn>
-          </template>
-          <VList class="user-menu">
-            <VListItem>
-              <VListItemTitle>Profile</VListItemTitle>
-            </VListItem>
-            <VListItem>
-              <VListItemTitle>Settings</VListItemTitle>
-            </VListItem>
-            <VDivider />
-            <VListItem>
-              <VListItemTitle>Logout</VListItemTitle>
-            </VListItem>
-          </VList>
-        </VMenu>
+        <user-profile/>
 
         <!-- Custom Navbar Slot -->
         <slot name="navbar" />
@@ -139,7 +114,8 @@
 import { ref, computed ,watch} from 'vue'
 import { useTheme } from 'vuetify'
 import { useDisplay } from 'vuetify'
-import { usePreferencesStore } from '@/stores/preferenceStore'
+import { usePreferencesStore } from '@/stores/PreferenceStore'
+import UserProfile from '@/pages-components/components/UserProfile.vue'
 // Props
 
 const props = defineProps({
@@ -310,26 +286,7 @@ function onToggleTheme() {
     }
   }
   
-  .navbar-profile-btn {
-    margin-left: 0.5rem;
-    
-    .user-avatar {
-      background: linear-gradient(
-        135deg,
-        rgba(var(--v-theme-primary)),
-        rgba(var(--v-theme-secondary))
-      );
-      color: white;
-      border: 2px solid rgba(var(--v-theme-primary), 0.2);
-      transition: all 0.3s ease;
-      
-      &:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(var(--v-theme-primary), 0.3);
-      }
-    }
   }
-}
 
 .search-overlay {
   position: absolute;
@@ -375,23 +332,6 @@ function onToggleTheme() {
   }
 }
 
-.user-menu {
-  min-width: 200px;
-  background: rgba(var(--v-theme-surface));
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(var(--v-theme-on-surface), 0.12);
-  overflow: hidden;
-  
-  .v-list-item {
-    transition: all 0.3s ease;
-    
-    &:hover {
-      background: rgba(var(--v-theme-primary), 0.08);
-      color: rgba(var(--v-theme-primary));
-    }
-  }
-}
 
 // Responsive design
 @media (max-width: 768px) {

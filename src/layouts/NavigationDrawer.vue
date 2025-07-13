@@ -39,11 +39,3 @@ function hasGroupPermissions(group) {
 }
 
 </script>
-<style>
-.nvg{
-  background-color: blue;
-  width: 100px;
-  height: 100px;
-}
-
-</style>

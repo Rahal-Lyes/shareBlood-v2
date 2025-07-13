@@ -34,7 +34,21 @@
 
 <script setup>
 import { ref } from 'vue';
+import instance from '@/http/index.js';
+import { useToastStore } from "@/stores/ToastStore";
 
+const toast = useToastStore();
+instance.get('products/').then(() => {
+  toast.ToastSuccess({
+    message: "login Success!",
+    icon: "mdi-check-circle",
+  });
+}).catch(() => {
+  toast.ToastError({
+    message: "Une erreur est survenue.",   
+     icon: "mdi-check-circle",
+  });
+});
 const email = ref('');
 const password = ref('');
 

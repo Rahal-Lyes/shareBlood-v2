@@ -3,21 +3,20 @@
     <!-- Sidebar -->
     <AppNavigationDrawer v-model:drawer="drawer">
       <template #navigation-drawer-content>
-        <DrawerContent  />
+        <DrawerContent />
       </template>
     </AppNavigationDrawer>
 
-    <AppBar v-model:drawer="drawer" :mdAndDown="mdAndDown"/>
-    
-  
+    <AppBar v-model:drawer="drawer" :mdAndDown="mdAndDown" />
 
     <AppMain>
       <template #main>
-<router-view/>
-        
-        
+      
+        <router-view />
+      
       </template>
     </AppMain>
+     <GlobalSnackbar />
   </VLayout>
 </template>
 
@@ -29,6 +28,7 @@ import DrawerContent from "@/@layouts/components/DrawerContent.vue";
 import AppMain from "@/@layouts/components/AppMain.vue";
 import AppFooter from "@/@layouts/components/AppFooter.vue";
 import AppBar from "@/@layouts/components/AppBar.vue";
+import GlobalSnackbar from "@/components/GlobalSnackbar.vue";
 const props = defineProps({
   breadcrumbs: Array,
   pageTitle: String,
@@ -41,6 +41,7 @@ const drawer = ref(true);
 watch(mdAndDown, (val) => {
   if (!val) drawer.value = true;
 });
+
+
+
 </script>
-
-
