@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "mainMenu": "Menu Principal",
+    "login": "Connexion",
+    "register": "Inscription",
+    "patientArea": "Espace Patient",
+    "patientProfile": "Profil",
+    "myDonations": "Mes Dons",
+    "bloodRequests": "Demandes de Sang",
+    "donorArea": "Espace Donneur",
+    "donorProfile": "Profil",
+    "makeDonation": "Faire un Don",
+    "donationHistory": "Historique des Dons",
+    "about": "À Propos",
+    "contact": "Contact"
+  }
+}

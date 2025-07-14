@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "mainMenu": "Main Menu",
+    "login": "Login",
+    "register": "Register",
+    "patientArea": "Patient Area",
+    "patientProfile": "Profile",
+    "myDonations": "My Donations",
+    "bloodRequests": "Blood Requests",
+    "donorArea": "Donor Area",
+    "donorProfile": "Profile",
+    "makeDonation": "Make a Donation",
+    "donationHistory": "Donation History",
+    "about": "About Us",
+    "contact": "Contact"
+  }
+}

@@ -1,33 +1,39 @@
 <template>
   <div class="login-page">
-    <form @submit.prevent="handleLogin" class="login-form">
-      <h2 class="title">Connexion</h2>
-      
+    <form @submit.prevent="handleRegister" class="login-form">
+      <h2 class="title">Créer un compte</h2>
+
       <div class="input-group">
-        <label for="username">username</label>
-        <input 
-         
-          type="text" 
-          v-model="username" 
-          required 
-          autocomplete="username"
-          placeholder="Username"
+        <label for="username">Nom d'utilisateur</label>
+        <input
+          type="text"
+          v-model="username"
+          required
+          placeholder="Nom d'utilisateur"
         />
       </div>
-      
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          v-model="email"
+          required
+          placeholder="Email"
+        />
+      </div>
+
       <div class="input-group">
         <label for="password">Mot de passe</label>
-        <input 
-          id="password" 
-          type="password" 
-          v-model="password" 
-          required 
-          autocomplete="current-password"
-          placeholder="Votre mot de passe"
+        <input
+          type="password"
+          v-model="password"
+          required
+          placeholder="Mot de passe"
         />
       </div>
-      
-      <button type="submit" class="btn-login">Se connecter</button>
+
+      <button type="submit" class="btn-login">S'inscrire</button>
     </form>
   </div>
 </template>
@@ -35,33 +41,45 @@
 <script setup>
 import { ref } from 'vue';
 import instance from '@/http/index.js';
-import { useToastStore } from "@/stores/ToastStore";
+import { useToastStore } from '@/stores/ToastStore';
 import router from '@/router/index.js';
+
 const toast = useToastStore();
 
 const username = ref('');
+const email = ref('');
 const password = ref('');
 
-function handleLogin() {
-instance.post('login/',{
-  username:username.value,
-  password:password.value
-}).then((response) => {
-  const token=response.data.token;
-  localStorage.setItem('token',token)
+function handleRegister() {
+  instance.post('signup/', {
+    username: username.value,
+    email: email.value,
+    password: password.value
+  })
+  .then(response => {
+    const token = response.data.token;
+    localStorage.setItem('token', token);
 
-  toast.ToastSuccess({
-    message: "Welcome "+ response.data.user.username,
-    icon: "mdi-check-circle",
+    toast.ToastSuccess({
+      message: "Bienvenue " + response.data.user.username + " !",
+      icon: "mdi-check-circle",
+    });
+
+    router.push('/login'); 
+  })
+  .catch(error => {
+    const errors = error.response?.data || {};
+    let message = 'Erreur inconnue.';
+
+    if (errors.username) message = "Nom d'utilisateur : " + errors.username[0];
+    else if (errors.email) message = "Email : " + errors.email[0];
+    else if (errors.password) message = "Mot de passe : " + errors.password[0];
+
+    toast.ToastError({
+      message,
+      icon: "mdi-alert-circle",
+    });
   });
-  router.push('/dashboard'); 
-}).catch((error) => {
-  
-  toast.ToastError({
-    message: error.response.data.detail,   
-     icon: "mdi-check-circle",
-  });
-});
 }
 </script>
 
@@ -140,3 +158,4 @@ input:focus {
   background-color: rgba(var(--v-theme-primary-darken-1, #1565c0));
 }
 </style>
+
