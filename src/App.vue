@@ -24,3 +24,6 @@ watchEffect(() => {
 const snackbar=ref(false)
 
 </script>
+<style>
+
+</style>
