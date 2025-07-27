@@ -12,11 +12,10 @@
     <div class="drawer-header">
       <div class="logo-section">
         <div class="logo-icon">
-          <VIcon icon="mdi-hexagon-multiple" size="32" />
+          <VIcon icon="mdi-blood-bag" size="32" class="brand-icon" />
         </div>
         <div class="logo-text">
-          <h3 class="app-title">SangConnect</h3>
-          <!-- <span class="app-subtitle">Admin Panel</span> -->
+          <h3 class="app-title">ShareBlood</h3>
         </div>
       </div>
       <VBtn
@@ -287,4 +286,15 @@ watch(mdAndDown, val => {
     display: none;
   }
 }
+
+  
+    .brand-icon {
+      color: rgba(var(--v-theme-primary));
+      filter: drop-shadow(0 2px 4px rgba(var(--v-theme-primary), 0.3));
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: rotate(10deg) scale(1.1);
+      }
+    }
 </style>

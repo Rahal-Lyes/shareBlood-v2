@@ -21,8 +21,8 @@
         </VBtn>
         
         <div class="brand-content">
-          <VIcon class="brand-icon" size="32">mdi-leaf</VIcon>
-          <span class="brand-text">YourApp</span>
+          <VIcon class="brand-icon" size="32">mdi-blood-bag </VIcon>
+          <span class="brand-text">ShareBlood</span>
         </div>
       </div>
 
@@ -80,7 +80,7 @@
         <slot name="navbar" />
       </div>
     </div>
-  hello
+    
     <!-- Search Overlay -->
     <VExpandTransition>
       <div v-if="searchVisible" class="search-overlay">
@@ -220,8 +220,8 @@ function onToggleTheme() {
       transform: scale(1.05);
     }
   }
-  
-  .brand-content {
+   
+  .brand-content{
     display: flex;
     align-items: center;
     gap: 0.75rem;

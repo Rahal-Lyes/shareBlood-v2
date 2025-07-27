@@ -7,11 +7,12 @@
         </VAvatar>
       </VBtn>
     </template>
+
     <VList class="user-menu">
       <VListItem
         v-for="item in userMenu"
         :key="item.name"
-        @click="$router.push(item.path)"
+        @click="handleMenuClick(item)"
       >
         <div class="v-menu-user">
           <VIcon>{{ item.icon }}</VIcon>
@@ -21,14 +22,30 @@
     </VList>
   </VMenu>
 </template>
+
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/AuthStore";
+
+const router = useRouter();
+const auth = useAuthStore();
+
 const userMenu = ref([
   { name: "Setting", path: "/setting", icon: "mdi-cog" },
   { name: "Profil", path: "/profil", icon: "mdi-account" },
-  { name: "Logout", path: "/logout", icon: "mdi-logout" },
+  { name: "Logout", path: null, icon: "mdi-logout", action: "logout" },
 ]);
+
+function handleMenuClick(item) {
+  if (item.action === "logout") {
+    auth.logout();
+  } else if (item.path) {
+    router.push(item.path);
+  }
+}
 </script>
+
 <style lang="scss" scoped>
 .v-menu-user {
   display: flex;
