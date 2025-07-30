@@ -8,7 +8,7 @@
     :height="navbarHeight"
   >
     <div class="app-container">
-      <!-- Logo/Brand Section -->
+    
       <div class="navbar-brand">
         <VBtn
           icon
@@ -210,6 +210,7 @@ function onToggleTheme() {
   align-items: center;
   gap: 1rem;
   
+  
   .navbar-menu-btn {
     color: rgba(var(--v-theme-on-surface), 0.8);
     transition: all 0.3s ease;
@@ -258,6 +259,7 @@ function onToggleTheme() {
   display: flex;
   justify-content: center;
   padding: 0 2rem;
+  
 }
 
 .navbar-actions {

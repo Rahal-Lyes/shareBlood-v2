@@ -31,12 +31,10 @@ export const useAuthStore = defineStore("auth", () => {
   return user;
   }
 
-  async function register(username, email, password) {
+  async function register(username, password,email,first_name,last_name,phone_number,birth_date,blood_type,wilaya,is_donor) {
     try {
       const response = await api.post("/register/", {
-        username,
-        email,
-        password,
+      username,password,email,first_name,last_name,phone_number,birth_date,blood_type,wilaya,is_donor
       });
 
       toast.ToastSuccess({
@@ -47,6 +45,7 @@ export const useAuthStore = defineStore("auth", () => {
       router.push("/login");
       return;
     } catch (err) {
+    
       toast.ToastError({
         message: String(
           err.response?.data?.username?.[0] ||

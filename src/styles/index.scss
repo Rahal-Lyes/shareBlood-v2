@@ -2,16 +2,8 @@
 @forward "mixins";
 @forward "navigationDrawer";
 
-
-
 /* Styles globaux pour tous les inputs */
-
-.bg{
-  padding: 1.5rem;
-width:100%;
-height: 100vh;
-background-color: rgba(var(--v-theme-background));
-overflow-y: auto;
-
+.page-container{
+  max-height: 100vh;
+  overflow-y: auto;
 }
-

@@ -20,11 +20,15 @@
   font-weight: 500;
   color: var(--v-theme-on-surface-variant);
 }
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+
+.page-container{
+  height: 100vh;
+  overflow-y: auto;
 }
-
-

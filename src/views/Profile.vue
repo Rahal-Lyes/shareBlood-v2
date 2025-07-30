@@ -1,7 +1,19 @@
 <template>
   <v-container>
-    <VIconBtn>Click me</VIconBtn>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae ipsum accusantium soluta quis animi excepturi delectus perferendis alias officiis corporis et eos explicabo quod officia, quidem maxime esse impedit molestiae eveniet non unde minima rerum. Porro, excepturi quaerat consequuntur quod saepe totam consectetur explicabo voluptas repudiandae iusto minima adipisci, necessitatibus, nulla fuga harum! Voluptates libero hic neque ipsam? Ab ad nihil magni illum. Perferendis ad voluptates recusandae officia, obcaecati sunt architecto unde non blanditiis temporibus voluptatibus incidunt asperiores nostrum harum possimus, dolor autem repellat quas ratione ea. Eius impedit harum sunt hic voluptatum possimus mollitia, similique odit laudantium in distinctio repellat fugit nobis, minima ad aperiam natus itaque modi. Ratione optio suscipit aspernatur odit minus voluptatibus eius sequi ipsum porro quidem in modi a, voluptas labore dignissimos qui tenetur culpa doloremque dolorem iure libero magnam perspiciatis non! Distinctio porro excepturi cupiditate culpa alias ut molestiae, voluptatem magni dicta reprehenderit ullam consequatur, vel numquam ea non hic dolorum voluptatibus possimus. Delectus eum, consequatur veritatis atque harum accusantium optio nobis illum asperiores vel nostrum maiores eos exercitationem perspiciatis fuga? Iusto architecto id nesciunt amet, quisquam, fugiat aliquam excepturi debitis facere dolorum, at explicabo quia! Esse, vel consectetur maxime nobis rem, officiis nam odit consequuntur laboriosam doloribus ipsum! Reiciendis nisi excepturi, facere natus corporis fuga. Necessitatibus ipsa nihil nisi repellendus aperiam assumenda voluptate temporibus voluptatibus mollitia ab ipsum atque magni quaerat, quod rerum blanditiis nam obcaecati facilis sint nesciunt. Nemo autem, esse animi rerum iure illum ut libero sequi minima, facere excepturi exercitationem error, aliquid dolore? Perferendis dicta, obcaecati, rerum ut vero id illum maxime, provident quibusdam necessitatibus voluptatem neque et aspernatur iure magnam asperiores odit eum doloremque modi optio ea in. Labore saepe odio cupiditate iusto eum asperiores fugiat, doloribus quisquam praesentium provident earum officiis, eos dolorum ad ipsam! Optio, asperiores iure.
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, aspernatur illum! Reiciendis corporis repellat odio. Soluta laborum ab quas aliquam culpa nulla provident exercitationem tempore dignissimos harum non atque, sint cum porro officia. Inventore delectus modi nisi aliquam minus, accusamus obcaecati, corrupti animi rem eum, iure quaerat maxime. Quisquam possimus ut modi maxime, doloremque vero assumenda suscipit blanditiis voluptates, et rem amet, aperiam accusamus quia nihil iure necessitatibus dolore in ipsam id sint. Earum repellat, modi cumque sit odit soluta non facilis nesciunt unde id tenetur possimus quam, hic totam animi rerum, placeat perferendis voluptate tempore itaque cum. Perspiciatis, officiis.</p>
+    <Suspense>
+      <template #default>
+        <AccountsData />
+      </template>
+      <template #fallback>
+       <v-progress-linear
+      color="green"
+      indeterminate
+    ></v-progress-linear>
+      </template>
+    </Suspense>
   </v-container>
 </template>
+
+<script setup>
+import AccountsData from "@/components/AccountsData.vue";
+</script>

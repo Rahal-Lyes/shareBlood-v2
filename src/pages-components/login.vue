@@ -56,11 +56,12 @@ const handleSubmit = async (formData) => {
 
     router.push("/");
   } catch (err) {
+
     toast.ToastError({
-      message: err.message || "Erreur de connexion",
+      message: err.response.data.message,
       icon: "mdi-alert-circle",
     });
-    console.error("Erreur de login :", err.message);
+    console.error( err.response.data.message);
   } 
 };
 
