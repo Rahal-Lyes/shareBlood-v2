@@ -1,92 +1,281 @@
 <template>
-  <div class="p-6 bg-gray-100" style="height: 1000px;">
-    <h1 class="text-3xl font-bold mb-8 text-center">Blood Donors by Blood Type</h1>
+  <v-container>
+    <v-card elevation="3" class="calendar-card">
+      <v-card-text class="pa-6">
+        <FullCalendar :options="calendarOptions" />
+      </v-card-text>
+    </v-card>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-      <!-- Bar Chart -->
-      <div class="bg-white p-4 rounded-2xl shadow-md">
-        <h2 class="text-xl font-semibold text-center mb-2">Bar Chart</h2>
-        <Bar :data="chartData" :options="chartOptions" />
-      </div>
+  <!-- Dialog principal -->
+  <v-dialog 
+    v-model="showDialog" 
+    persistent 
+    max-width="600px"
+    transition="dialog-bottom-transition"
+  >
+    <v-card class="dialog-card" elevation="24">
+      <!-- En-tête avec gradient -->
+      <v-card-title class="dialog-header pa-6">
+        <div class="d-flex align-center justify-space-between w-100">
+          <div class="d-flex align-center ga-3">
+            <v-avatar color="primary" size="40">
+              <v-icon color="white" size="20">mdi-calendar-plus</v-icon>
+            </v-avatar>
+            <div>
+              <h2 class="text-h5 text-white mb-1">Nouveau Rendez-vous</h2>
+              <p class="text-caption text-white opacity-80 mb-0">Planifiez votre prochaine réunion</p>
+            </div>
+          </div>
+        </div>
+      </v-card-title>
 
-      <!-- Doughnut Chart -->
-      <div class="bg-white p-4 rounded-2xl shadow-md">
-        <h2 class="text-xl font-semibold text-center mb-2">Doughnut Chart</h2>
-        <Doughnut :data="chartData" :options="doughnutOptions" />
-      </div>
-    </div>
-  </div>
+      <!-- Contenu du formulaire -->
+      <v-card-text class="pa-6">
+        <v-form ref="form" v-model="isValid">
+          <!-- Champ titre avec icône -->
+          <div class="mb-6">
+            <v-text-field
+              label="Titre du rendez-vous"
+              v-model="calendarStore.selectedEvent.title"
+              required
+              autofocus
+              variant="outlined"
+              color="primary"
+              :rules="titleRules"
+              prepend-inner-icon="mdi-text"
+              placeholder="Ex: Réunion équipe, Appel client..."
+              class="custom-text-field"
+            />
+          </div>
+
+          <!-- Section horaires avec design amélioré -->
+          <div class="time-section">
+            <h3 class="text-subtitle-1 font-weight-medium mb-4 d-flex align-center ga-2">
+              <v-icon color="primary" size="20">mdi-clock-outline</v-icon>
+              Horaires
+            </h3>
+            
+            <v-card variant="outlined" class="time-card pa-4">
+              <div class="d-flex align-center justify-center ga-4 flex-wrap">
+                <!-- Début -->
+                <div class="time-chip-container">
+                  <p class="text-caption text-medium-emphasis mb-2 text-center">Début</p>
+                  <RelativeTimeChip 
+                    :date="calendarStore.selectedEvent.start" 
+                    color="success"
+                    icon="mdi-play"
+                  />
+                </div>
+
+                <!-- Flèche animée -->
+                <v-icon 
+                  color="primary" 
+                  size="24"
+                  class="arrow-icon"
+                >
+                  mdi-arrow-right
+                </v-icon>
+
+                <!-- Fin -->
+                <div class="time-chip-container">
+                  <p class="text-caption text-medium-emphasis mb-2 text-center">Fin</p>
+                  <RelativeTimeChip 
+                    :date="calendarStore.selectedEvent.end" 
+                    color="error"
+                    icon="mdi-stop"
+                  />
+                </div>
+              </div>
+
+              <!-- Durée calculée -->
+              <v-divider class="my-4" />
+              <div class="text-center">
+                <v-chip
+                  color="info"
+                  variant="tonal"
+                  size="small"
+                  prepend-icon="mdi-timer-outline"
+                >
+                  Durée: {{ calculateDuration() }}
+                </v-chip>
+              </div>
+            </v-card>
+          </div>  
+        </v-form>
+      </v-card-text>
+
+      <!-- Actions avec meilleur style -->
+      <v-card-actions class="pa-6 pt-0">
+        <v-spacer />
+        <v-btn
+          variant="outlined"
+          color="grey"
+          @click="closeDialog"
+          size="large"
+          class="me-3"
+        >
+          <v-icon start>mdi-close</v-icon>
+          Annuler
+        </v-btn>
+        
+        <v-btn
+          color="primary"
+          @click="saveEvent"
+          :disabled="!isValid"
+          :loading="saving"
+          size="large"
+          variant="elevated"
+        >
+          <v-icon start>mdi-content-save</v-icon>
+          Enregistrer
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  </v-container>
 </template>
 
 <script setup>
-import {
-  Chart as ChartJS,
-  BarElement,
-  ArcElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-  Title
-} from 'chart.js'
-import { Bar, Doughnut } from 'vue-chartjs'
+import { ref, computed,onMounted } from 'vue'
+import FullCalendar from '@fullcalendar/vue3'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import { useCalendarStore } from '@/stores/UseCalendarStore'
+import RelativeTimeChip from '@/components/RelativeTimeChip.vue'
+const showDialog = ref(false)
+const calendarStore = useCalendarStore()
 
-ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend, Title)
+const isValid = computed(() => {
+  return calendarStore.selectedEvent.title?.trim().length > 0
+})
 
-const chartData = {
-  labels: ['A+', 'A−', 'O', 'O+'],
-  datasets: [
-    {
-      label: 'Number of Donors',
-      data: [25, 10, 17, 40],
-      backgroundColor: ['#f87171', '#facc15', '#60a5fa', '#34d399'],
-      borderRadius: 8,
-    },
-  ],
+const closeDialog = () => {
+  showDialog.value = false
+  calendarStore.resetSelection()
 }
 
-const chartOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: true,
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Blood Donor Distribution (Bar)',
-      font: {
-        size: 18,
-      },
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 5,
-      },
-    },
-  },
+const saveEvent = async () => {
+  if (isValid.value) {
+    await calendarStore.addData();
+    showDialog.value = false;
+  }
+};
+console.log(calendarStore.getUserId,'userid');
+const handleSelect = (info) => {
+  calendarStore.setSelection({
+    start: info.startStr,
+    end: info.endStr,
+    title: ''
+  })
+  showDialog.value = true
 }
 
-const doughnutOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: true,
-      position: 'bottom',
-    },
-    title: {
-      display: true,
-      text: 'Blood Donor Distribution (Doughnut)',
-      font: {
-        size: 18,
-      },
-    },
+const calendarOptions = computed(() => ({
+  plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+  initialView: 'timeGridWeek',
+  selectable: true,
+  editable: true,
+  select: handleSelect,
+  headerToolbar: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'dayGridMonth,timeGridWeek,timeGridDay'
   },
+  buttonText: {
+    today: "Aujourd’hui",
+    month: "Mois",
+    week: "Semaine",
+    day: "Jour"
+  },
+  locale: 'en',
+  events: calendarStore.getEvents,
+  eventClick: ({ event }) => {
+    calendarStore.setSelection({
+      id: event.id,
+      start: event.startStr,
+      end: event.endStr,
+      title: event.title
+    })
+    showDialog.value = true
+  }
+}))
+
+onMounted(() => {
+  calendarStore.fetchData()
+})
+
+
+
+// Données réactives
+
+const saving = ref(false)
+const form = ref(null)
+
+// Règles de validation
+const titleRules = [
+  v => !!v || 'Le titre est requis',
+  v => (v && v.length >= 3) || 'Le titre doit contenir au moins 3 caractères'
+]
+
+// Options de priorité
+const priorityItems = [
+  { title: 'Faible', value: 'low' },
+  { title: 'Normal', value: 'normal' },
+  { title: 'Élevée', value: 'high' },
+  { title: 'Urgente', value: 'urgent' }
+]
+
+// Calcul de la durée
+const calculateDuration = () => {
+  const start = new Date(calendarStore.selectedEvent.start)
+  const end = new Date(calendarStore.selectedEvent.end)
+  const diff = end - start
+  const hours = Math.floor(diff / (1000 * 60 * 60))
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+  
+  if (hours > 0) {
+    return minutes > 0 ? `${hours}h ${minutes}min` : `${hours}h`
+  }
+  return `${minutes}min`
 }
-</script>
+
+// Méthodes
+
+</script> 
 
 <style scoped>
+
+.calendar-card {
+    background-color: rgba(var(--v-theme-background));
+      color: rgba(var(--v-theme-on-background));
+}
+
+.time-info-card {
+  background: rgba(25, 118, 210, 0.05);
+  transition: all 0.3s ease;
+}
+
+.time-info-card:hover {
+  background: rgba(25, 118, 210, 0.1);
+}
+
+/* Styles personnalisés pour FullCalendar */
+:deep(.fc) {
+  font-family: 'Roboto', sans-serif;
+}
+
+:deep(.fc-toolbar) {
+  margin-bottom: 1.5rem;
+}
+
+:deep(.fc-button) {
+  background: rgba(var(--v-theme-success)) !important;
+  
+  border-color:rgba(var(--v-theme-info))!important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+}
+
 </style>

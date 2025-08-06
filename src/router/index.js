@@ -30,11 +30,6 @@ const routes = [
       path: 'profile',
       component: () => import('@/views/Profile.vue'),
       name: 'Profile'
-    },
-    {
-      path:'/accounts/:id',
-      component:()=>import('@/components/AccountDetails.vue'),
-      name:'AccountDetails'
     }
   ]
 }

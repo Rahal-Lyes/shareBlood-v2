@@ -41,7 +41,6 @@
 import { FormKit } from "@formkit/vue";
 import { useAuthStore } from "@/stores/AuthStore";
 import router from "@/router/index.js";
-import { ref } from "vue";
 const auth = useAuthStore();
 import { useToastStore } from "@/stores/ToastStore.js";
   const toast = useToastStore();
@@ -50,11 +49,11 @@ const handleSubmit = async (formData) => {
   try {
     const response = await auth.login(formData.username, formData.password);
     toast.ToastSuccess({
-      message: "Connecté avec succès : " +response.username,
+      message: "Connecté avec succès : " + response.username,
       icon: "mdi-check",
     });
 
-    router.push("/");
+     router.push("/patient/profile");
   } catch (err) {
 
     toast.ToastError({
@@ -73,7 +72,7 @@ const handleSubmit = async (formData) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(var(--v-theme-background));
+  background-color: rgba(var(--v-theme-transparent),0.5);
   font-family: "Inter", sans-serif;
   padding: 20px;
   scroll-behavior: smooth;

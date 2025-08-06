@@ -54,8 +54,8 @@
 
 // export default instance;
 import APIConfig from "@/config/setting";
-import axios from 'axios';
-import router from '@/router/index.js';
+import axios from "axios";
+import router from "@/router/index.js";
 
 const instance = axios.create(APIConfig);
 
@@ -80,7 +80,7 @@ instance.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url.includes('/refresh/')
+      !originalRequest.url.includes("/refresh/")
     ) {
       originalRequest._retry = true;
 
@@ -94,15 +94,18 @@ instance.interceptors.response.use(
       }
 
       try {
-        const refreshURL = new URL('/refresh/', APIConfig.baseURL).href;
-
+        const refreshURL = `${APIConfig.baseURL.replace(
+          /\/$/,
+          ""
+        )}/api/v1/refresh/`;
         const res = await axios.post(refreshURL, { refresh });
 
         const newAccess = res.data.access;
         localStorage.setItem("access", newAccess);
 
+        originalRequest.headers = originalRequest.headers || {};
         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
-        return instance(originalRequest); // Rejouer la requête originale
+        return instance(originalRequest);
       } catch (refreshError) {
         console.error("❌ Refresh token invalide ou expiré");
         localStorage.removeItem("access");

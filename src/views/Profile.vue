@@ -15,5 +15,5 @@
 </template>
 
 <script setup>
-import AccountsData from "@/components/AccountsData.vue";
+import AccountsData from "@/pages-components/Patient/AccountsData.vue";
 </script>

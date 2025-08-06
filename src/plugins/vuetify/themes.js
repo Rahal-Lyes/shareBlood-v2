@@ -32,7 +32,8 @@ const theme = {
         'mail-not-read': '#FAFAFA',
         'icon-shadow':'#555555cc',
         'primary-blue': "#0083C9",
-        'dark-blue': "#162D4A" 
+        'dark-blue': "#162D4A",
+        
         
       },
       variables: {

@@ -51,6 +51,7 @@ watch(mdAndDown, val => {
 
 .custom-drawer {
   background-color: rgba(var(--v-theme-background)) !important;
+  
   color:rgba(var(--v-theme-on-background)) !important;
   border-right: 1px solid rgba(var(--v-theme-on-surface), 0.12);
   @include transition-smooth;
