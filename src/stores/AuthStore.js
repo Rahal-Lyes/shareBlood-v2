@@ -13,23 +13,28 @@ export const useAuthStore = defineStore("auth", () => {
   const toast = useToastStore();
 
 const getUser = computed(() => user.value?.id || null);
-  // 🟢 Connexion
 
-  async function login(username, password) {
-    const response = await api.post("/login/", { username, password });
+async function login(username, password) {
+  const response = await api.post("/login/", { username, password });
 
-    const { access, refresh, user } = response.data;
+  const { access: accessToken, refresh: refreshToken, user: userData } = response.data;
 
-    if (!access || !refresh) {
-      throw new Error("Réponse du serveur invalide.");
-    }
-
-    localStorage.setItem("access", access);
-    localStorage.setItem("refresh", refresh);
-    localStorage.setItem("user", JSON.stringify(user));
-
-    return user;
+  if (!accessToken || !refreshToken) {
+    throw new Error("Réponse du serveur invalide.");
   }
+
+  // 🔹 Mise à jour du store directement
+  access.value = accessToken;
+  refresh.value = refreshToken;
+  user.value = userData;
+
+  // 🔹 Sauvegarde dans le localStorage
+  localStorage.setItem("access", accessToken);
+  localStorage.setItem("refresh", refreshToken);
+  localStorage.setItem("user", JSON.stringify(userData));
+
+  return userData;
+}
 
   async function register(
     username,

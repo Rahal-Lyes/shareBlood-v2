@@ -1,4 +1,4 @@
-<template>
+ <template>
   <v-container>
     <v-card elevation="3" class="calendar-card">
       <v-card-text class="pa-6">
@@ -6,7 +6,6 @@
       </v-card-text>
     </v-card>
 
-  <!-- Dialog principal -->
   <v-dialog 
     v-model="showDialog" 
     persistent 
@@ -14,7 +13,6 @@
     transition="dialog-bottom-transition"
   >
     <v-card class="dialog-card" elevation="24">
-      <!-- En-tête avec gradient -->
       <v-card-title class="dialog-header pa-6">
         <div class="d-flex align-center justify-space-between w-100">
           <div class="d-flex align-center ga-3">
@@ -29,10 +27,8 @@
         </div>
       </v-card-title>
 
-      <!-- Contenu du formulaire -->
       <v-card-text class="pa-6">
         <v-form ref="form" v-model="isValid">
-          <!-- Champ titre avec icône -->
           <div class="mb-6">
             <v-text-field
               label="Titre du rendez-vous"
@@ -48,7 +44,6 @@
             />
           </div>
 
-          <!-- Section horaires avec design amélioré -->
           <div class="time-section">
             <h3 class="text-subtitle-1 font-weight-medium mb-4 d-flex align-center ga-2">
               <v-icon color="primary" size="20">mdi-clock-outline</v-icon>
@@ -57,7 +52,6 @@
             
             <v-card variant="outlined" class="time-card pa-4">
               <div class="d-flex align-center justify-center ga-4 flex-wrap">
-                <!-- Début -->
                 <div class="time-chip-container">
                   <p class="text-caption text-medium-emphasis mb-2 text-center">Début</p>
                   <RelativeTimeChip 
@@ -67,7 +61,6 @@
                   />
                 </div>
 
-                <!-- Flèche animée -->
                 <v-icon 
                   color="primary" 
                   size="24"
@@ -76,7 +69,6 @@
                   mdi-arrow-right
                 </v-icon>
 
-                <!-- Fin -->
                 <div class="time-chip-container">
                   <p class="text-caption text-medium-emphasis mb-2 text-center">Fin</p>
                   <RelativeTimeChip 
@@ -87,7 +79,6 @@
                 </div>
               </div>
 
-              <!-- Durée calculée -->
               <v-divider class="my-4" />
               <div class="text-center">
                 <v-chip
@@ -104,7 +95,6 @@
         </v-form>
       </v-card-text>
 
-      <!-- Actions avec meilleur style -->
       <v-card-actions class="pa-6 pt-0">
         <v-spacer />
         <v-btn
@@ -162,7 +152,7 @@ const saveEvent = async () => {
     showDialog.value = false;
   }
 };
-console.log(calendarStore.getUserId,'userid');
+// console.log(calendarStore.getUserId,'userid');
 const handleSelect = (info) => {
   calendarStore.setSelection({
     start: info.startStr,
@@ -278,4 +268,68 @@ const calculateDuration = () => {
   font-weight: 500 !important;
 }
 
+</style> 
+
+<!-- 
+<template>
+  <div class="upload-section">
+    <h2>تحويل PDF إلى صورة</h2>
+    <input type="file" @change="handleFileUpload" accept="application/pdf" />
+    <button @click="submit" :disabled="!file">أرسل</button>
+
+    <div v-if="imageUrl">
+      <h3>الصورة الناتجة:</h3>
+      <img :src="imageUrl" alt="Converted Image" />
+      <a :href="imageUrl" download="converted.jpg">تحميل الصورة</a>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      file: null,
+      imageUrl: null
+    }
+  },
+  methods: {
+    handleFileUpload(e) {
+      this.file = e.target.files[0]
+    },
+    async submit() {
+      try {
+        const formData = new FormData()
+        formData.append('file', this.file)
+
+        const response = await axios.post(
+          'http://localhost:8000/api/v1/pdf/pdf-to-jpg/',
+          formData,
+          { responseType: 'blob' }
+        )
+
+        const url = URL.createObjectURL(new Blob([response.data]))
+        this.imageUrl = url
+      } catch (error) {
+        console.error('Erreur lors de la conversion :', error)
+        alert('Échec de la conversion. Veuillez réessayer.')
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+.upload-section {
+  max-width: 500px;
+  margin: auto;
+  text-align: center;
+}
+img {
+  max-width: 100%;
+  margin-top: 20px;
+}
 </style>
+-->

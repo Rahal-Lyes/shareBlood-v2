@@ -40,31 +40,40 @@
 <script setup>
 import { FormKit } from "@formkit/vue";
 import { useAuthStore } from "@/stores/AuthStore";
-import router from "@/router/index.js";
-const auth = useAuthStore();
 import { useToastStore } from "@/stores/ToastStore.js";
-  const toast = useToastStore();
+import router from "@/router/index.js";
+import { onMounted } from "vue";
+
+const auth = useAuthStore();
+const toast = useToastStore();
 
 const handleSubmit = async (formData) => {
   try {
     const response = await auth.login(formData.username, formData.password);
+
     toast.ToastSuccess({
       message: "Connecté avec succès : " + response.username,
       icon: "mdi-check",
     });
 
-     router.push("/patient/profile");
+    router.push("/");
   } catch (err) {
-
     toast.ToastError({
-      message: err.response.data.message,
+      message: err?.response?.data?.message || "Erreur de connexion",
       icon: "mdi-alert-circle",
     });
-    console.error( err.response.data.message);
-  } 
+    console.error(err?.response?.data?.message || err);
+  }
 };
 
+onMounted(() => {
+  // Exemple : si l'utilisateur est déjà connecté, on redirige
+  if (auth.isAuthenticated) {
+    router.push("/patient/profile");
+  }
+});
 </script>
+
 
 <style scoped>
 .login-page {

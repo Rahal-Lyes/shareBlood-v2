@@ -75,7 +75,7 @@
 
         <!-- User Profile -->
         <user-profile/>
-
+      
         <!-- Custom Navbar Slot -->
         <slot name="navbar" />
       </div>
@@ -116,7 +116,7 @@ import { useTheme } from 'vuetify'
 import { useDisplay } from 'vuetify'
 import { usePreferencesStore } from '@/stores/PreferenceStore'
 import UserProfile from '@/pages-components/components/UserProfile.vue'
-// Props
+
 
 const props = defineProps({
   drawer: String,
