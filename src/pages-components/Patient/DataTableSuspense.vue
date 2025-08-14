@@ -25,7 +25,7 @@
               <v-btn
                 variant="outlined"
                 icon="mdi-filter-variant"
-                class="rounded-lg bg-red-accent-4"
+                class="rounded-lg "
                 @click="showFiltersAction"
               />
               <v-btn

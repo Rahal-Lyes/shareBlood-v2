@@ -168,6 +168,14 @@ const calendarOptions = computed(() => ({
   selectable: true,
   editable: true,
   select: handleSelect,
+  slotMinTime: "08:00:00", // Heure de début
+  slotMaxTime: "17:00:00", // Heure de fin
+  slotDuration: "00:20:00",
+  selectAllow: (selectInfo) => {
+    const day = new Date(selectInfo.start).getDay() // 0=Dimanche, 5=Vendredi
+    return day !== 5 // false si vendredi
+  },
+
   headerToolbar: {
     left: 'prev,next today',
     center: 'title',

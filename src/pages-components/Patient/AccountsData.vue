@@ -1,23 +1,21 @@
 <template>
   <v-app>
     <v-container fluid class="pa-6">
-      <!-- En-tête avec actions -->
       <DataTableSuspense
-        verboseName_01="Construction Site"
-        verboseName_02="list des projets"
-        verboseName_03="Add new Projets"
+        verboseName_01="Banque de Sang"
+        verboseName_02="Liste des donneurs"
+        verboseName_03="Ajouter nouveau donneur"
         :add_data="() => console.log('clicked')"
         @showFilters="handleShowFilters"
       >
       </DataTableSuspense>
-
 
       <v-card class="elevation-4 rounded-xl overflow-hidden pa-3">
         <v-data-table
           :headers="headers"
           :items="filteredItems"
           :search="search"
-          item-key="name"
+          item-key="id"
           density="comfortable"
           hover
           class="modern-table"
@@ -25,138 +23,82 @@
           show-select
           v-model="selectedItems"
         >
-    <template #headers="{ columns, toggleSort, sortBy }">
-      {{ console.log(toggleSort) }}
-  <tr>
-    <th v-for="column in columns" :key="column.key">
-      <v-btn
-        
-        @click="toggleSort(column)"
-        :color="sortBy.some(s => s.key === column.key) ? 'primary' : undefined"
-        variant="text"
-      >
-        {{ column.title }}
-        <v-icon end>mdi-chevron-down</v-icon>
-      </v-btn>
-    </th>
-  </tr>
-</template>
-
-          <template #top>
-            <div class="pa-4 bg-surface">
-              <div class="d-flex align-center justify-space-between">
-                <div class="d-flex align-center ga-3">
-                  <v-chip
-                    v-if="selectedItems.length > 0"
-                    color="primary"
-                    variant="flat"
-                    prepend-icon="mdi-check"
-                  >
-                    {{ selectedItems.length }} sélectionnée(s)
-                  </v-chip>
-                </div>
-                <div class="d-flex ga-2">
-                  <v-btn
-                    v-if="selectedItems.length > 0"
-                    variant="outlined"
-                    size="small"
-                    @click="deleteItem(item)"
-                    prepend-icon="mdi-delete"
-                    color="error"
-                  >
-                    Supprimer
-                  </v-btn>
-                  <v-btn
-                    variant="text"
-                    size="small"
-                    icon="mdi-refresh"
-                    @click="refreshData"
-                  />
-                </div>
-              </div>
-            </div>
-          </template>
-
-          <!-- Nom avec avatar -->
-          <template #item.name="{ item }">
+          <template #item.donor_info="{ item }">
+            
             <div class="d-flex align-center ga-3 py-2">
               <v-avatar
-                :color="getPlantColor(item.name)"
+                :color="getBloodTypeColor(item.blood_type)"
                 size="40"
-                class="plant-avatar"
+                class="donor-avatar"
               >
-                <v-icon color="white">{{ getPlantIcon(item.name) }}</v-icon>
+                <v-icon color="white">mdi-account</v-icon>
               </v-avatar>
               <div>
-                <div class="font-weight-medium">{{ item.name }}</div>
-                <div class="text-caption text-medium-emphasis">
-                  Plante d'intérieur
+                <div class="font-weight-medium">
+                  {{ item.first_name }} {{ item.last_name }}
+                </div>
+                 <div class="text-caption text-medium-emphasis">
+                  {{ item.email }}
                 </div>
               </div>
             </div>
           </template>
 
-          <!-- Niveau de lumière avec indicateur visuel -->
-          <template #item.light="{ item }">
-            <div class="d-flex align-center ga-2">
-              <v-progress-circular
-                :model-value="getLightLevel(item.light)"
-                :color="getLightColor(item.light)"
-                size="24"
-                width="3"
-              />
-              <div>
-                <div class="font-weight-medium">{{ item.light }}</div>
-                <div class="text-caption text-medium-emphasis">
-                  {{ getLightDescription(item.light) }}
-                </div>
-              </div>
-            </div>
-          </template>
+        
 
-          <!-- Hauteur avec barre de progression -->
-          <template #item.height="{ item }">
-            <div class="height-cell">
-              <div class="font-weight-medium mb-1">{{ item.height }}</div>
-              <v-progress-linear
-                :model-value="getHeightPercentage(item.height)"
-                color="success"
-                height="4"
-                rounded
-              />
-            </div>
-          </template>
-
-          <!-- Pet Friendly avec badge -->
-          <template #item.petFriendly="{ item }">
+          <template #item.blood_type="{ item }">
             <v-chip
-              :color="item.petFriendly === 'Yes' ? 'success' : 'error'"
+              :color="getBloodTypeColor(item.blood_type)"
               variant="flat"
               size="small"
-              :prepend-icon="
-                item.petFriendly === 'Yes' ? 'mdi-check' : 'mdi-close'
-              "
-              class="font-weight-bold"
+              class="font-weight-bold text-white"
             >
-              {{ item.petFriendly === "Yes" ? "Oui" : "Non" }}
+              {{ item.blood_type }}
             </v-chip>
           </template>
 
-          <!-- Prix avec mise en forme -->
-          <template #item.price="{ item }">
-            <div class="text-right">
-              <div class="text-h6 font-weight-bold text-success">
-                ${{ item.price }}
+          <template #item.is_donor="{ item }">
+            <v-chip
+              :color="item.is_donor ? 'success' : 'error'"
+              variant="flat"
+              size="small"
+              :prepend-icon="item.is_donor ? 'mdi-check' : 'mdi-close'"
+              class="font-weight-bold"
+            >
+              {{ item.is_donor ? "Oui" : "Non" }}
+            </v-chip>
+          </template>
+
+          <template #item.wilaya="{ item }">
+            <div class="text-center">
+              <div class="font-weight-medium">
+                {{ item.wilaya }}
               </div>
-              <div class="text-caption text-medium-emphasis">USD</div>
             </div>
           </template>
 
-          <!-- Actions avec menu -->
+          <template #item.birth_date="{ item }">
+            <div class="text-center">
+              <div class="font-weight-medium">
+                {{ formatDate(item.birth_date) }}
+              </div>
+              <div class="text-caption text-medium-emphasis">
+                {{ calculateAge(item.birth_date) }} ans
+              </div>
+            </div>
+          </template>
+
+          <template #item.phone_number="{item}">
+
+             <div class=" text-medium-emphasis">
+                  {{ item.phone_number }}
+                </div>
+          </template>
+
           <template #item.actions="{ item }">
             <div class="d-flex ga-1">
               <v-btn
-                icon="mdi-eye"
+                icon="mdi-account-eye"
                 variant="text"
                 size="small"
                 color="primary"
@@ -179,11 +121,35 @@
                   />
                 </template>
                 <v-list density="compact">
-                  <v-list-item @click="duplicateItem(item)">
+                  <v-list-item
+                    @click="scheduleDonation(item)"
+                    v-if="item.is_donor"
+                  >
                     <template #prepend>
-                      <v-icon>mdi-content-copy</v-icon>
+                      <v-icon>mdi-water-plus</v-icon>
                     </template>
-                    <v-list-item-title>Dupliquer</v-list-item-title>
+                    <v-list-item-title>Programmer don</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item
+                    @click="viewDonationHistory(item)"
+                    v-if="item.is_donor"
+                  >
+                    <template #prepend>
+                      <v-icon>mdi-history</v-icon>
+                    </template>
+                    <v-list-item-title>Historique</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item @click="toggleDonorStatus(item)">
+                    <template #prepend>
+                      <v-icon>{{
+                        item.is_donor ? "mdi-account-minus" : "mdi-account-plus"
+                      }}</v-icon>
+                    </template>
+                    <v-list-item-title>
+                      {{
+                        item.is_donor ? "Retirer donneur" : "Ajouter donneur"
+                      }}
+                    </v-list-item-title>
                   </v-list-item>
                   <v-list-item @click="deleteItem(item)" class="text-error">
                     <template #prepend>
@@ -196,37 +162,12 @@
             </div>
           </template>
 
-          <!-- Date avec tooltip -->
-          <template #item.createdAt="{ item }">
-            <v-tooltip>
-              <template #activator="{ props }">
-                <div v-bind="props" class="text-center">
-                  <v-chip
-                    variant="outlined"
-                    size="small"
-                    color="info"
-                    class="mb-1"
-                  >
-                    {{ item.createdAt.timeAgo }} ago
-                  </v-chip>
-                  <div class="text-caption text-medium-emphasis">
-                    {{ item.createdAt.date }}
-                  </div>
-                </div>
-              </template>
-              <span
-                >Créée le {{ item.createdAt.date }} à
-                {{ item.createdAt.hour }}</span
-              >
-            </v-tooltip>
-          </template>
-
-          <!-- Footer personnalisé -->
           <template #bottom>
             <div class="pa-4 bg-surface border-t">
               <div class="d-flex align-center justify-space-between">
                 <div class="text-caption text-medium-emphasis">
-                  Affichage de {{ filteredItems.length }} plante(s)
+                  Affichage de {{ filteredItems.length }} compte(s) -
+                  {{ donorsCount }} donneur(s)
                 </div>
                 <div class="d-flex align-center ga-2">
                   <v-chip variant="outlined" size="small">
@@ -238,42 +179,58 @@
           </template>
         </v-data-table>
       </v-card>
+      
+      <ViewItem :user="selectedUser" v-model="show" />
     </v-container>
   </v-app>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
 import DataTableSuspense from "@/pages-components/Patient/DataTableSuspense.vue";
+import ViewItem from "@/pages-components/Patient/ViewItem.vue";
+import api from "@/http";
+import { ref, computed } from "vue";
 // État réactif
 const showFilters = ref(false);
 const search = ref("");
-const lightFilter = ref(null);
-const petFriendlyFilter = ref(null);
-const priceRange = ref([0, 100]);
+const bloodTypeFilter = ref(null);
+const isDonorFilter = ref(null);
+const wilayaFilter = ref(null);
 const selectedItems = ref([]);
+const items = ref([]);
+const show=ref(false)
+const selectedUser = ref(null)
+
 function handleShowFilters(value) {
   console.log(value, showFilters.value);
   showFilters.value = value;
 }
-// Configuration des colonnes
+
+// Configuration des colonnes adaptée aux vraies données
 const headers = [
   {
-    title: "Plante",
+    title: "Utilisateur",
     align: "start",
     sortable: true,
-    key: "name",
-    width: "200px",
+    key: "donor_info",
+    width: "250px",
   },
-  { title: "Lumière", align: "center", key: "light", width: "180px" },
-  { title: "Hauteur", align: "center", key: "height", width: "120px" },
   {
-    title: "Pet-Friendly",
+    title: "Groupe Sanguin",
     align: "center",
-    key: "petFriendly",
-    width: "130px",
+    key: "blood_type",
+    width: "120px",
   },
-  { title: "Prix", align: "center", key: "price", width: "100px" },
+  { title: "Est donneur", align: "center", key: "is_donor", width: "130px" },
+  {
+    title: "Date naissance",
+    align: "center",
+    key: "birth_date",
+    width: "150px",
+  },
+  { title: "Wilaya", align: "center", key: "wilaya", width: "140px" },
+
+  {title:'phone number',align:'center',key:'phone_number',width:'140px'},
   {
     title: "Actions",
     key: "actions",
@@ -281,221 +238,118 @@ const headers = [
     sortable: false,
     width: "120px",
   },
-  {
-    title: "Créée",
-    key: "createdAt",
-    align: "center",
-    sortable: true,
-    width: "140px",
-  },
 ];
 
-const lightLevels = ["Low", "Medium", "Bright, indirect", "Low to medium"];
-
-// Fonctions utilitaires
-function getRandomPastDate() {
-  const now = new Date();
-  const pastMilliseconds = Math.floor(Math.random() * 6 * 60 * 60 * 1000);
-  return new Date(now.getTime() - pastMilliseconds);
+// Fonctions utilitaires adaptées
+function getBloodTypeColor(bloodType) {
+  const typeColors = {
+    "A+": "red-darken-1",
+    "A-": "red-lighten-1",
+    "B+": "blue-darken-1",
+    "B-": "blue-lighten-1",
+    "AB+": "purple-darken-1",
+    "AB-": "purple-lighten-1",
+    "O+": "green-darken-1",
+    "O-": "green-lighten-1",
+  };
+  return typeColors[bloodType] || "grey";
 }
 
-function formatDateInfo(date) {
-  const now = new Date();
-  const diffMs = now - date;
-  const minutes = Math.floor(diffMs / 60000);
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-  const timeAgo =
-    hours > 0 ? `${hours}h ${remainingMinutes}min` : `${minutes}min`;
-
+function formatDate(dateString) {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
-  const dateStr = `${day}/${month}/${year}`;
-
-  const hour = String(date.getHours()).padStart(2, "0");
-  const min = String(date.getMinutes()).padStart(2, "0");
-  const hourStr = `${hour}:${min}`;
-
-  return { date: dateStr, hour: hourStr, timeAgo, timestamp: date.getTime() };
+  return `${day}/${month}/${year}`;
 }
 
-function getPlantColor(name) {
-  const colors = [
-    "success",
-    "primary",
-    "secondary",
-    "info",
-    "warning",
-    "error",
-  ];
-  return colors[name.length % colors.length];
+function calculateAge(birthDate) {
+  if (!birthDate) return "N/A";
+  const birth = new Date(birthDate);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDiff = today.getMonth() - birth.getMonth();
+
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+
+  return age;
 }
 
-function getPlantIcon(name) {
-  const icons = {
-    Fern: "mdi-leaf",
-    "Snake Plant": "mdi-cactus",
-    Monstera: "mdi-sprout",
-    Pothos: "mdi-vine",
-    "ZZ Plant": "mdi-tree",
-    "Spider Plant": "mdi-spider-web",
-    "Air Plant": "mdi-air-filter",
-    Peperomia: "mdi-flower",
-  };
-  return icons[name] || "mdi-leaf";
-}
-
-function getLightColor(lightLevel) {
-  const level = lightLevel.toLowerCase();
-  if (level.includes("low")) return "success";
-  if (level.includes("medium")) return "warning";
-  if (level.includes("bright")) return "error";
-  return "info";
-}
-
-function getLightLevel(lightLevel) {
-  const level = lightLevel.toLowerCase();
-  if (level.includes("low")) return 30;
-  if (level.includes("medium")) return 60;
-  if (level.includes("bright")) return 90;
-  return 45;
-}
-
-function getLightDescription(lightLevel) {
-  const level = lightLevel.toLowerCase();
-  if (level.includes("low")) return "Peu de lumière";
-  if (level.includes("medium")) return "Lumière modérée";
-  if (level.includes("bright")) return "Lumière vive";
-  return "Variable";
-}
-
-function getHeightPercentage(height) {
-  const num = parseInt(height);
-  return Math.min((num / 100) * 100, 100);
-}
-
-// Actions
+// Actions adaptées
 function viewItem(item) {
-  console.log("Voir:", item.name);
+  selectedUser.value = item
+  show.value = true
 }
 
 function editItem(item) {
-  console.log("Éditer:", item.name);
+  console.log("Éditer utilisateur:", item.first_name, item.last_name);
 }
 
-function duplicateItem(item) {
-  console.log("Dupliquer:", item.name);
+function scheduleDonation(item) {
+  console.log("Programmer don pour:", item.first_name, item.last_name);
+}
+
+function viewDonationHistory(item) {
+  console.log("Historique de donations de:", item.first_name, item.last_name);
+}
+
+function toggleDonorStatus(item) {
+  console.log("Basculer statut donneur pour:", item.first_name, item.last_name);
+  // Ici vous pourriez faire un appel API pour mettre à jour le statut
 }
 
 function deleteItem(item) {
-  console.log("Supprimer:", item.name);
+  console.log("Supprimer utilisateur:", item.first_name, item.last_name);
 }
 
 function refreshData() {
   console.log("Actualiser les données");
+  getData();
 }
 
-// Données
-const items = ref([
-  {
-    name: "Fern",
-    light: "Low",
-    height: "20cm",
-    petFriendly: "Yes",
-    price: 20,
-    createdAt: formatDateInfo(getRandomPastDate()),
-  },
-  {
-    name: "Snake Plant",
-    light: "Low",
-    height: "50cm",
-    petFriendly: "No",
-    price: 35,
-    createdAt: formatDateInfo(getRandomPastDate()),
-  },
-  {
-    name: "Monstera",
-    light: "Medium",
-    height: "60cm",
-    petFriendly: "No",
-    price: 50,
-    createdAt: formatDateInfo(getRandomPastDate()),
-  },
-  {
-    name: "Pothos",
-    light: "Low to medium",
-    height: "40cm",
-    petFriendly: "Yes",
-    price: 25,
-    createdAt: formatDateInfo(getRandomPastDate()),
-  },
-  {
-    name: "ZZ Plant",
-    light: "Low to medium",
-    height: "90cm",
-    petFriendly: "Yes",
-    price: 30,
-    createdAt: formatDateInfo(getRandomPastDate()),
-  },
-  {
-    name: "Spider Plant",
-    light: "Bright, indirect",
-    height: "30cm",
-    petFriendly: "Yes",
-    price: 15,
-    createdAt: formatDateInfo(getRandomPastDate()),
-  },
-  {
-    name: "Air Plant",
-    light: "Bright, indirect",
-    height: "15cm",
-    petFriendly: "Yes",
-    price: 10,
-    createdAt: formatDateInfo(getRandomPastDate()),
-  },
-  {
-    name: "Peperomia",
-    light: "Bright, indirect",
-    height: "25cm",
-    petFriendly: "Yes",
-    price: 20,
-    createdAt: formatDateInfo(getRandomPastDate()),
-  },
-]);
-
-// Propriétés calculées
+// Propriétés calculées adaptées
 const filteredItems = computed(() => {
   return items.value.filter((item) => {
-    const matchesLight = !lightFilter.value || item.light === lightFilter.value;
-    const matchesPetFriendly =
-      !petFriendlyFilter.value ||
-      (petFriendlyFilter.value === "Oui"
-        ? item.petFriendly === "Yes"
-        : item.petFriendly === "No");
-    const matchesPrice =
-      item.price >= priceRange.value[0] && item.price <= priceRange.value[1];
+    const matchesBloodType =
+      !bloodTypeFilter.value || item.blood_type === bloodTypeFilter.value;
+    const matchesDonor =
+      isDonorFilter.value === null ||
+      (isDonorFilter.value === "Oui"
+        ? item.is_donor === true
+        : item.is_donor === false);
+    const matchesWilaya =
+      !wilayaFilter.value ||
+      item.wilaya?.toLowerCase().includes(wilayaFilter.value.toLowerCase());
 
-    return matchesLight && matchesPetFriendly && matchesPrice;
+    return matchesBloodType && matchesDonor && matchesWilaya;
   });
 });
 
-const selectedCount = computed(() => selectedItems.value.length);
-
-const averagePrice = computed(() => {
-  const sum = items.value.reduce((acc, item) => acc + item.price, 0);
-  return Math.round(sum / items.value.length);
+const donorsCount = computed(() => {
+  return items.value.filter((item) => item.is_donor).length;
 });
 
-const petFriendlyCount = computed(() => {
-  return items.value.filter((item) => item.petFriendly === "Yes").length;
-});
+// Récupération des données adaptée
+const getData = async () => {
+  try {
+    const response = await api.get("accounts/");
+    items.value = response.data?.results ?? [];
+  } catch (error) {
+    console.error("Erreur API:", error);
+    // Gestion d'erreur - vous pourriez afficher une notification
+  }
+};
+
+// Initialisation
+await getData();
 </script>
 
 <style lang="scss" scoped>
-.bg {
-  background-color: rgb(227, 159, 159) !important;
-}
+
+
 .modern-table {
   background: transparent;
 
@@ -536,17 +390,13 @@ const petFriendlyCount = computed(() => {
   }
 }
 
-.plant-avatar {
+.donor-avatar {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease;
 
   &:hover {
     transform: scale(1.1);
   }
-}
-
-.height-cell {
-  min-width: 80px;
 }
 
 .v-card {

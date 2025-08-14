@@ -30,6 +30,7 @@
       <div class="navbar-center">
         <slot name="navbar-center" />
       </div>
+      
 
       <!-- Right Actions -->
       <div class="navbar-actions">

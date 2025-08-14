@@ -13,6 +13,9 @@ export const useAuthStore = defineStore("auth", () => {
   const toast = useToastStore();
 
 const getUser = computed(() => user.value?.id || null);
+const getUsername=computed(()=>{
+  user.value.username
+})
 
 async function login(username, password) {
   const response = await api.post("/login/", { username, password });
