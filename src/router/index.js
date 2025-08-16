@@ -7,7 +7,17 @@ import Profil from "@/pages-components/components/Profile.vue";
 import { components } from "vuetify/dist/vuetify.js";
 const routes = [
   { path: "/login", component: Login, name: "Login" },
-  ,
+  {
+    path: "/about",
+    component: () => import("@/views/About.vue"),
+    name: "About",
+  },
+    {
+    path: "/contact",
+    component: () => import("@/views/Contact.vue"),
+    name: "Contact",
+  },
+
   {
     path: "/register",
     component: () => import("@/pages-components/components/Register.vue"),
@@ -38,17 +48,17 @@ const routes = [
   },
   {
     path: "/settings",
-    component: ()=>import('@/views/Settings.vue'),
+    component: () => import("@/views/Settings.vue"),
     name: "Settings",
-  
-  children: [
-    {
-      path:'profil',
-      component:()=>import('@/pages-components/components/Profile.vue'),  
-      name:'Profil'
-    }
-  ]
-}
+
+    children: [
+      {
+        path: "profil",
+        component: () => import("@/pages-components/components/Profile.vue"),
+        name: "Profil",
+      },
+    ],
+  },
 ];
 
 const router = createRouter({

@@ -13,8 +13,7 @@
       <!-- En-tête du menu -->
       <div class="menu-header">
         <VAvatar size="48" class="user-avatar-large">
-          <VIcon v-if="!auth.user.avatar">mdi-account</VIcon>
-          <img v-else :src="auth.user.avatar" alt="Avatar" />
+          <img :src="auth.user.avatar" alt="Avatar" />
         </VAvatar>
         <div class="user-info">
           <h4>{{ auth.user.username }}</h4>
