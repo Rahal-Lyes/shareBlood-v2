@@ -29,7 +29,7 @@ export const navItems = [
     icon: "mdi-hospital-box",
     children: [
       { to: "/patient/profile", title: "Profile", icon: "mdi-account-circle" },
-      { to: "/patient/donations", title: "My Donations", icon: "mdi-heart" },
+      { to: "/patient/appointment", title: "Appointment", icon: "mdi-calendar-check" },
       {
         to: "/patient/requests",
         title: "Blood Requests",
@@ -44,7 +44,7 @@ export const navItems = [
     icon: "mdi-account-heart",
     children: [
       { to: "/donor/profile", title: "Profile", icon: "mdi-account-circle" },
-      { to: "/donor/donate", title: "Make a Donation", icon: "mdi-hand-heart" },
+      { to: "/donor/appointment", title: "Make a Donation", icon: "mdi-hand-heart" },
       { to: "/donor/history", title: "Donation History", icon: "mdi-history" },
     ],
   },

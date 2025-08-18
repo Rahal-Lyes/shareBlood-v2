@@ -1,343 +1,140 @@
- <template>
+<template>
   <v-container>
-    <v-card elevation="3" class="calendar-card">
-      <v-card-text class="pa-6">
-        <FullCalendar :options="calendarOptions" />
-      </v-card-text>
-    </v-card>
+    <v-row>
+      <!-- Événements par mois -->
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-card-title>Événements par mois</v-card-title>
+          <v-card-text>
+            <canvas id="eventsPerMonth"></canvas>
+          </v-card-text>
+        </v-card>
+      </v-col>
 
-  <v-dialog 
-    v-model="showDialog" 
-    persistent 
-    max-width="600px"
-    transition="dialog-bottom-transition"
-  >
-    <v-card class="dialog-card" elevation="24">
-      <v-card-title class="dialog-header pa-6">
-        <div class="d-flex align-center justify-space-between w-100">
-          <div class="d-flex align-center ga-3">
-            <v-avatar color="primary" size="40">
-              <v-icon color="white" size="20">mdi-calendar-plus</v-icon>
-            </v-avatar>
-            <div>
-              <h2 class="text-h5 text-white mb-1">Nouveau Rendez-vous</h2>
-              <p class="text-caption text-white opacity-80 mb-0">Planifiez votre prochaine réunion</p>
-            </div>
-          </div>
-        </div>
-      </v-card-title>
+      <!-- Événements par utilisateur -->
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-card-title>Événements par utilisateur</v-card-title>
+          <v-card-text>
+            <canvas id="eventsPerUser"></canvas>
+          </v-card-text>
+        </v-card>
+      </v-col>
 
-      <v-card-text class="pa-6">
-        <v-form ref="form" v-model="isValid">
-          <div class="mb-6">
-            <v-text-field
-              label="Titre du rendez-vous"
-              v-model="calendarStore.selectedEvent.title"
-              required
-              autofocus
-              variant="outlined"
-              color="primary"
-              :rules="titleRules"
-              prepend-inner-icon="mdi-text"
-              placeholder="Ex: Réunion équipe, Appel client..."
-              class="custom-text-field"
-            />
-          </div>
-
-          <div class="time-section">
-            <h3 class="text-subtitle-1 font-weight-medium mb-4 d-flex align-center ga-2">
-              <v-icon color="primary" size="20">mdi-clock-outline</v-icon>
-              Horaires
-            </h3>
-            
-            <v-card variant="outlined" class="time-card pa-4">
-              <div class="d-flex align-center justify-center ga-4 flex-wrap">
-                <div class="time-chip-container">
-                  <p class="text-caption text-medium-emphasis mb-2 text-center">Début</p>
-                  <RelativeTimeChip 
-                    :date="calendarStore.selectedEvent.start" 
-                    color="success"
-                    icon="mdi-play"
-                  />
-                </div>
-
-                <v-icon 
-                  color="primary" 
-                  size="24"
-                  class="arrow-icon"
-                >
-                  mdi-arrow-right
-                </v-icon>
-
-                <div class="time-chip-container">
-                  <p class="text-caption text-medium-emphasis mb-2 text-center">Fin</p>
-                  <RelativeTimeChip 
-                    :date="calendarStore.selectedEvent.end" 
-                    color="error"
-                    icon="mdi-stop"
-                  />
-                </div>
-              </div>
-
-              <v-divider class="my-4" />
-              <div class="text-center">
-                <v-chip
-                  color="info"
-                  variant="tonal"
-                  size="small"
-                  prepend-icon="mdi-timer-outline"
-                >
-                  Durée: {{ calculateDuration() }}
-                </v-chip>
-              </div>
-            </v-card>
-          </div>  
-        </v-form>
-      </v-card-text>
-
-      <v-card-actions class="pa-6 pt-0">
-        <v-spacer />
-        <v-btn
-          variant="outlined"
-          color="grey"
-          @click="closeDialog"
-          size="large"
-          class="me-3"
-        >
-          <v-icon start>mdi-close</v-icon>
-          Annuler
-        </v-btn>
-        
-        <v-btn
-          color="primary"
-          @click="saveEvent"
-          :disabled="!isValid"
-          :loading="saving"
-          size="large"
-          variant="elevated"
-        >
-          <v-icon start>mdi-content-save</v-icon>
-          Enregistrer
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-
+      <!-- Taux de réservation -->
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-card-title>Taux de réservation</v-card-title>
+          <v-card-text>
+            <canvas id="reservationRate"></canvas>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
-<script setup>
-import { ref, computed,onMounted } from 'vue'
-import FullCalendar from '@fullcalendar/vue3'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import { useCalendarStore } from '@/stores/UseCalendarStore'
-import RelativeTimeChip from '@/components/RelativeTimeChip.vue'
-const showDialog = ref(false)
-const calendarStore = useCalendarStore()
-
-const isValid = computed(() => {
-  return calendarStore.selectedEvent.title?.trim().length > 0
-})
-
-const closeDialog = () => {
-  showDialog.value = false
-  calendarStore.resetSelection()
-}
-
-const saveEvent = async () => {
-  if (isValid.value) {
-    await calendarStore.addData();
-    showDialog.value = false;
-  }
-};
-// console.log(calendarStore.getUserId,'userid');
-const handleSelect = (info) => {
-  calendarStore.setSelection({
-    start: info.startStr,
-    end: info.endStr,
-    title: ''
-  })
-  showDialog.value = true
-}
-
-const calendarOptions = computed(() => ({
-  plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-  initialView: 'timeGridWeek',
-  selectable: true,
-  editable: true,
-  select: handleSelect,
-  slotMinTime: "08:00:00", // Heure de début
-  slotMaxTime: "17:00:00", // Heure de fin
-  slotDuration: "00:20:00",
-  selectAllow: (selectInfo) => {
-    const day = new Date(selectInfo.start).getDay() // 0=Dimanche, 5=Vendredi
-    return day !== 5 // false si vendredi
-  },
-
-  headerToolbar: {
-    left: 'prev,next today',
-    center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-  },
-  buttonText: {
-    today: "Aujourd’hui",
-    month: "Mois",
-    week: "Semaine",
-    day: "Jour"
-  },
-  locale: 'en',
-  events: calendarStore.getEvents,
-  eventClick: ({ event }) => {
-    calendarStore.setSelection({
-      id: event.id,
-      start: event.startStr,
-      end: event.endStr,
-      title: event.title
-    })
-    showDialog.value = true
-  }
-}))
-
-onMounted(() => {
-  calendarStore.fetchData()
-})
-
-
-
-// Données réactives
-
-const saving = ref(false)
-const form = ref(null)
-
-// Règles de validation
-const titleRules = [
-  v => !!v || 'Le titre est requis',
-  v => (v && v.length >= 3) || 'Le titre doit contenir au moins 3 caractères'
-]
-
-// Options de priorité
-const priorityItems = [
-  { title: 'Faible', value: 'low' },
-  { title: 'Normal', value: 'normal' },
-  { title: 'Élevée', value: 'high' },
-  { title: 'Urgente', value: 'urgent' }
-]
-
-// Calcul de la durée
-const calculateDuration = () => {
-  const start = new Date(calendarStore.selectedEvent.start)
-  const end = new Date(calendarStore.selectedEvent.end)
-  const diff = end - start
-  const hours = Math.floor(diff / (1000 * 60 * 60))
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-  
-  if (hours > 0) {
-    return minutes > 0 ? `${hours}h ${minutes}min` : `${hours}h`
-  }
-  return `${minutes}min`
-}
-
-// Méthodes
-
-</script> 
-
-<style scoped>
-
-.calendar-card {
-    background-color: rgba(var(--v-theme-background));
-      color: rgba(var(--v-theme-on-background));
-}
-
-.time-info-card {
-  background: rgba(25, 118, 210, 0.05);
-  transition: all 0.3s ease;
-}
-
-.time-info-card:hover {
-  background: rgba(25, 118, 210, 0.1);
-}
-
-/* Styles personnalisés pour FullCalendar */
-:deep(.fc) {
-  font-family: 'Roboto', sans-serif;
-}
-
-:deep(.fc-toolbar) {
-  margin-bottom: 1.5rem;
-}
-
-:deep(.fc-button) {
-  background: rgba(var(--v-theme-success)) !important;
-  
-  border-color:rgba(var(--v-theme-info))!important;
-  text-transform: none !important;
-  font-weight: 500 !important;
-}
-
-</style> 
-
-<!-- 
-<template>
-  <div class="upload-section">
-    <h2>تحويل PDF إلى صورة</h2>
-    <input type="file" @change="handleFileUpload" accept="application/pdf" />
-    <button @click="submit" :disabled="!file">أرسل</button>
-
-    <div v-if="imageUrl">
-      <h3>الصورة الناتجة:</h3>
-      <img :src="imageUrl" alt="Converted Image" />
-      <a :href="imageUrl" download="converted.jpg">تحميل الصورة</a>
-    </div>
-  </div>
-</template>
-
 <script>
-import axios from 'axios'
+import { onMounted, onBeforeUnmount } from "vue";
+import api from "@/http";
+import { Chart, registerables } from "chart.js";
+Chart.register(...registerables);
 
 export default {
-  data() {
-    return {
-      file: null,
-      imageUrl: null
-    }
-  },
-  methods: {
-    handleFileUpload(e) {
-      this.file = e.target.files[0]
-    },
-    async submit() {
-      try {
-        const formData = new FormData()
-        formData.append('file', this.file)
+  name: "Dashboard",
+  setup() {
+    let charts = {}; // garder les instances Chart.js
 
-        const response = await axios.post(
-          'http://localhost:8000/api/v1/pdf/pdf-to-jpg/',
-          formData,
-          { responseType: 'blob' }
-        )
-
-        const url = URL.createObjectURL(new Blob([response.data]))
-        this.imageUrl = url
-      } catch (error) {
-        console.error('Erreur lors de la conversion :', error)
-        alert('Échec de la conversion. Veuillez réessayer.')
+    // Détruire les anciens graphiques avant d’en recréer
+    function destroyChart(id) {
+      if (charts[id]) {
+        charts[id].destroy();
       }
     }
-  }
-}
-</script>
 
-<style scoped>
-.upload-section {
-  max-width: 500px;
-  margin: auto;
-  text-align: center;
-}
-img {
-  max-width: 100%;
-  margin-top: 20px;
-}
-</style>
--->
+    async function loadCharts() {
+      try {
+        // 📊 Événements par mois
+        const resMonth = await api.get("calendar/events-per-month/");
+        destroyChart("eventsPerMonth");
+        charts["eventsPerMonth"] = new Chart(
+          document.getElementById("eventsPerMonth"),
+          {
+            type: "bar",
+            data: {
+              labels: resMonth.data.labels,
+              datasets: [
+                {
+                  label: "Événements",
+                  data: resMonth.data.data,
+                  backgroundColor: "rgba(75, 192, 192, 0.6)",
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: { legend: { display: false } },
+            },
+          }
+        );
+
+        // 👤 Événements par utilisateur
+        const resUser = await api.get("calendar/events-per-user/");
+        destroyChart("eventsPerUser");
+        charts["eventsPerUser"] = new Chart(
+          document.getElementById("eventsPerUser"),
+          {
+            type: "pie",
+            data: {
+              labels: resUser.data.labels,
+              datasets: [
+                {
+                  label: "Événements",
+                  data: resUser.data.data,
+                  backgroundColor: resUser.data.labels.map(
+                    (_, i) =>
+                      `hsl(${(i * 60) % 360}, 70%, 60%)` // couleurs dynamiques
+                  ),
+                },
+              ],
+            },
+            options: { responsive: true },
+          }
+        );
+
+        // 📅 Taux de réservation
+        const resRate = await api.get("calendar/reservation-rate/");
+        destroyChart("reservationRate");
+        charts["reservationRate"] = new Chart(
+          document.getElementById("reservationRate"),
+          {
+            type: "doughnut",
+            data: {
+              labels: resRate.data.labels,
+              datasets: [
+                {
+                  label: "Réservations",
+                  data: resRate.data.data,
+                  backgroundColor: [
+                    "rgba(255, 99, 132, 0.6)",
+                    "rgba(54, 162, 235, 0.6)",
+                  ],
+                },
+              ],
+            },
+            options: { responsive: true },
+          }
+        );
+      } catch (error) {
+        console.error("Erreur lors du chargement des stats :", error);
+      }
+    }
+
+    onMounted(loadCharts);
+    onBeforeUnmount(() => {
+      // clean memory
+      Object.values(charts).forEach((chart) => chart.destroy());
+    });
+  },
+};
+</script>

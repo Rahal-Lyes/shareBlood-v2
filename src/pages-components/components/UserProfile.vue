@@ -1,41 +1,41 @@
 <template>
-  <VMenu offset-y>
-    <template v-slot:activator="{ props }">
-      <VBtn icon variant="text" class="navbar-profile-btn" v-bind="props">
-        <VAvatar size="36" class="user-avatar">
-          <VIcon v-if="!auth.user.avatar">mdi-account</VIcon>
-          <img v-else :src="auth.user.avatar" alt="Avatar" />
-        </VAvatar>
-      </VBtn>
-    </template>
+<VMenu offset-y v-if="auth.user">
+  <template v-slot:activator="{ props }">
+    <VBtn icon variant="text" class="navbar-profile-btn" v-bind="props">
+      <VAvatar size="36" class="user-avatar">
+        <VIcon v-if="!auth.user.avatar">mdi-account</VIcon>
+        <img v-else :src="auth.user.avatar" alt="Avatar" />
+      </VAvatar>
+    </VBtn>
+  </template>
 
-    <VList class="user-menu">
-      <!-- En-tête du menu -->
-      <div class="menu-header">
-        <VAvatar size="48" class="user-avatar-large">
-          <img :src="auth.user.avatar" alt="Avatar" />
-        </VAvatar>
-        <div class="user-info">
-          <h4>{{ auth.user.username }}</h4>
-          <small>{{ auth.user.email }}</small>
-        </div>
+  <VList class="user-menu">
+    <div class="menu-header">
+      <VAvatar size="48" class="user-avatar-large">
+        <img v-if="auth.user.avatar" :src="auth.user.avatar" alt="Avatar" />
+        <VIcon v-else>mdi-account</VIcon>
+      </VAvatar>
+      <div class="user-info">
+        <h4>{{ auth.user.username }}</h4>
+        <small>{{ auth.user.email }}</small>
       </div>
+    </div>
 
-      <VDivider />
+    <VDivider />
 
-      <!-- Liste des actions -->
-      <VListItem
-        v-for="item in userMenu"
-        :key="item.name"
-        @click="handleMenuClick(item)"
-      >
-        <div class="v-menu-user">
-          <VIcon>{{ item.icon }}</VIcon>
-          <VListItemTitle>{{ item.name }}</VListItemTitle>
-        </div>
-      </VListItem>
-    </VList>
-  </VMenu>
+    <VListItem
+      v-for="item in userMenu"
+      :key="item.name"
+      @click="handleMenuClick(item)"
+    >
+      <div class="v-menu-user">
+        <VIcon>{{ item.icon }}</VIcon>
+        <VListItemTitle>{{ item.name }}</VListItemTitle>
+      </div>
+    </VListItem>
+  </VList>
+</VMenu>
+
 </template>
 
 <script setup>
