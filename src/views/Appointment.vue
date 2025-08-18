@@ -178,10 +178,10 @@ const saveEvent = async () => {
 };
 // console.log(calendarStore.getUserId,'userid');
 const handleSelect = (info) => {
+
   calendarStore.setSelection({
     start: info.startStr,
     end: info.endStr,
-    title: "",
   });
   showDialog.value = true;
 };
@@ -192,21 +192,21 @@ const calendarOptions = computed(() => ({
   selectable: true,
   editable: false,
   select: handleSelect,
-  slotMinTime: "08:00:00", // Heure de début
-  slotMaxTime: "17:00:00", // Heure de fin
+  slotMinTime: "08:00:00",
+  slotMaxTime: "17:00:00",
   slotDuration: "00:20:00",
+
   selectAllow: (selectInfo) => {
     if (!selectInfo) return false;
 
-    const day = new Date(selectInfo.start).getDay(); // 0=Dimanche, 5=Vendredi
+    const day = new Date(selectInfo.start).getDay();
     if (day === 5) return false; // interdire vendredi
 
-    // Vérifier durée exacte de 20 minutes
     const durationMinutes =
       (new Date(selectInfo.end) - new Date(selectInfo.start)) / 1000 / 60;
     if (durationMinutes !== 20) return false;
 
-    // Vérifier si déjà réservé
+    // Bloquer si déjà réservé
     return !calendarStore.events.some(
       (event) =>
         event.reserved &&
@@ -215,20 +215,8 @@ const calendarOptions = computed(() => ({
     );
   },
 
-  headerToolbar: {
-    left: "prev,next today",
-    center: "title",
-    right: "dayGridMonth,timeGridWeek,timeGridDay",
-  },
-  buttonText: {
-    today: "Aujourd’hui",
-    month: "Mois",
-    week: "Semaine",
-    day: "Jour",
-  },
-  locale: "en",
-  events: calendarStore.events,
   eventClick: ({ event }) => {
+    // Ne rien faire si déjà réservé
     if (event.extendedProps.reserved) return false;
 
     calendarStore.setSelection({
@@ -240,6 +228,30 @@ const calendarOptions = computed(() => ({
     });
     showDialog.value = true;
   },
+
+  eventDidMount: ({ event, el }) => {
+    // Si réservé, changer couleur et rendre clic impossible
+    if (event.extendedProps.reserved) {
+      el.style.backgroundColor = "#FF6B6B";
+      el.style.text="Reserved" // rouge par exemple
+      el.style.pointerEvents = "none"; // désactive le clic
+    }
+     const titleEl = el.querySelector(".fc-event-title"); // FullCalendar utilise cette classe
+    if (titleEl) {
+      titleEl.innerText = "Reserved"; // remplace le titre
+    } else {
+      el.innerText = "Reserved"; // fallback
+    }
+  },
+
+  headerToolbar: {
+    left:"",
+    center: "title",
+   right: ""
+  },
+
+  locale: "en",
+  events: calendarStore.events,
 }));
 
 onMounted(() => {
