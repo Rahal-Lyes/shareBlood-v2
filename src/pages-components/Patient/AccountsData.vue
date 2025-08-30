@@ -24,7 +24,6 @@
           v-model="selectedItems"
         >
           <template #item.donor_info="{ item }">
-            
             <div class="d-flex align-center ga-3 py-2">
               <v-avatar
                 :color="getBloodTypeColor(item.blood_type)"
@@ -37,14 +36,12 @@
                 <div class="font-weight-medium">
                   {{ item.first_name }} {{ item.last_name }}
                 </div>
-                 <div class="text-caption text-medium-emphasis">
+                <div class="text-caption text-medium-emphasis">
                   {{ item.email }}
                 </div>
               </div>
             </div>
           </template>
-
-        
 
           <template #item.blood_type="{ item }">
             <v-chip
@@ -88,11 +85,10 @@
             </div>
           </template>
 
-          <template #item.phone_number="{item}">
-
-             <div class=" text-medium-emphasis">
-                  {{ item.phone_number }}
-                </div>
+          <template #item.phone_number="{ item }">
+            <div class="text-medium-emphasis">
+              {{ item.phone_number }}
+            </div>
           </template>
 
           <template #item.actions="{ item }">
@@ -179,7 +175,7 @@
           </template>
         </v-data-table>
       </v-card>
-      
+
       <ViewItem :user="selectedUser" v-model="show" />
     </v-container>
   </v-app>
@@ -198,8 +194,8 @@ const isDonorFilter = ref(null);
 const wilayaFilter = ref(null);
 const selectedItems = ref([]);
 const items = ref([]);
-const show=ref(false)
-const selectedUser = ref(null)
+const show = ref(false);
+const selectedUser = ref(null);
 
 function handleShowFilters(value) {
   console.log(value, showFilters.value);
@@ -230,7 +226,12 @@ const headers = [
   },
   { title: "Wilaya", align: "center", key: "wilaya", width: "140px" },
 
-  {title:'phone number',align:'center',key:'phone_number',width:'140px'},
+  {
+    title: "phone number",
+    align: "center",
+    key: "phone_number",
+    width: "140px",
+  },
   {
     title: "Actions",
     key: "actions",
@@ -280,8 +281,8 @@ function calculateAge(birthDate) {
 
 // Actions adaptées
 function viewItem(item) {
-  selectedUser.value = item
-  show.value = true
+  selectedUser.value = item;
+  show.value = true;
 }
 
 function editItem(item) {
@@ -336,6 +337,7 @@ const donorsCount = computed(() => {
 const getData = async () => {
   try {
     const response = await api.get("accounts/");
+    console.log(response);
     items.value = response.data?.results ?? [];
   } catch (error) {
     console.error("Erreur API:", error);
@@ -348,8 +350,6 @@ await getData();
 </script>
 
 <style lang="scss" scoped>
-
-
 .modern-table {
   background: transparent;
 

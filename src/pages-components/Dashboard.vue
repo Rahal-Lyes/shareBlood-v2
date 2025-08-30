@@ -2,8 +2,8 @@
   <v-container>
     <v-row>
       <!-- Événements par mois -->
-      <v-col cols="12" md="6">
-        <v-card>
+      <v-col cols="12" md="6" >
+        <v-card class="chart-bg">
           <v-card-title>Événements par mois</v-card-title>
           <v-card-text>
             <canvas id="eventsPerMonth"></canvas>
@@ -13,7 +13,7 @@
 
       <!-- Événements par utilisateur -->
       <v-col cols="12" md="6">
-        <v-card>
+        <v-card class="chart-bg">
           <v-card-title>Événements par utilisateur</v-card-title>
           <v-card-text>
             <canvas id="eventsPerUser"></canvas>
@@ -23,7 +23,7 @@
 
       <!-- Taux de réservation -->
       <v-col cols="12" md="6">
-        <v-card>
+        <v-card class="chart-bg">
           <v-card-title>Taux de réservation</v-card-title>
           <v-card-text>
             <canvas id="reservationRate"></canvas>
@@ -138,3 +138,9 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.chart-bg{
+  background-color: rgba(var(--v-theme-background));
+}
+
+</style>

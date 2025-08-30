@@ -33,7 +33,7 @@ const routes = [
   },
   {
     path: "/patient",
-    component: () => import("@/views/Patient.vue"),
+    component: () => import("@/views/profile/Patient.vue"),
     name: "Patient",
     meta: {
       requiresAuth: true,
@@ -41,12 +41,12 @@ const routes = [
     children: [
       {
         path: "profile",
-        component: () => import("@/views/Profile.vue"),
+        component: () => import("@/views/profile/Profile.vue"),
         name: "Profile",
       },
         {
         path: "appointment",
-        component: () => import("@/views/Appointment.vue"),
+        component: () => import("@/views/profile/Appointment.vue"),
         name: "Appointment",
       },
       
@@ -56,6 +56,9 @@ const routes = [
     path: "/settings",
     component: () => import("@/views/Settings.vue"),
     name: "Settings",
+    meta: {
+      requiresAuth: true,
+    },
 
     children: [
       {
@@ -65,6 +68,26 @@ const routes = [
       },
     ],
   },
+  {
+    path:"/ecommerce",
+    component:()=>import('@/views/ecommerce/Index.vue'),
+    name:"Ecommerce",
+    meta: {
+      requiresAuth: true,
+    },
+    children:[
+        {
+        path: "products",
+        component: () => import("@/views/ecommerce/Products.vue"),
+        name: "Products",
+      },
+        {
+        path: "home",
+        component: () => import("@/views/ecommerce/Home.vue"),
+        name: "Home",
+      },
+    ]
+  }
 ];
 
 const router = createRouter({
