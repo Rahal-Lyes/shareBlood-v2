@@ -6,13 +6,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>BloodConnect - Plateforme de Partage de Sang</title>
+    <title>TafsutCMS - Content Management System</title>
     <style>
         :root {
-            --primary-red: #dc2626;
-            --secondary-red: #ef4444;
-            --light-red: #fee2e2;
-            --dark-red: #991b1b;
+            --primary-blue: #3b82f6;
+            --secondary-blue: #60a5fa;
+            --light-blue: #eff6ff;
+            --dark-blue: #1e40af;
+            --accent-purple: #8b5cf6;
             --white: #ffffff;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
@@ -28,7 +29,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #fef2f2 0%, #f3f4f6 100%);
+            background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
             height: 100vh;
             overflow: hidden;
         }
@@ -44,7 +45,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            background: radial-gradient(circle at 50% 50%, rgba(220, 38, 38, 0.03) 0%, transparent 70%);
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 70%);
         }
 
         .loading-container {
@@ -64,48 +65,48 @@
             animation: fadeInUp 0.8s ease-out;
         }
 
-        .blood-drop {
-            width: 60px;
-            height: 80px;
+        .cms-icon {
+            width: 70px;
+            height: 70px;
             position: relative;
             animation: pulse 2s infinite ease-in-out;
         }
 
-        .blood-drop::before {
+        .cms-icon::before {
             content: '';
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
-            animation: dropFloat 3s ease-in-out infinite;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-purple) 100%);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            animation: iconFloat 3s ease-in-out infinite;
         }
 
-        .blood-drop::after {
-            content: '♥';
+        .cms-icon::after {
+            content: '📝';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: white;
-            font-size: 1.5rem;
-            animation: heartbeat 2s infinite;
+            font-size: 2rem;
+            animation: iconPulse 2s infinite;
         }
 
         .brand-text {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
             color: var(--gray-800);
             letter-spacing: -0.02em;
         }
 
-        .brand-text .blood {
-            color: var(--primary-red);
+        .brand-text .tafsut {
+            color: var(--primary-blue);
         }
 
-        .brand-text .connect {
-            color: var(--gray-600);
+        .brand-text .cms {
+            color: var(--accent-purple);
+            font-weight: 600;
         }
 
         .tagline {
@@ -125,7 +126,7 @@
         }
 
         .progress-container {
-            width: 300px;
+            width: 320px;
             height: 8px;
             background: var(--gray-200);
             border-radius: 4px;
@@ -136,7 +137,7 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-purple) 100%);
             border-radius: 4px;
             width: 0%;
             animation: progressFill 3s ease-in-out infinite;
@@ -161,29 +162,29 @@
             animation: fadeIn 1s ease-out 0.7s both;
         }
 
-        .medical-icons {
+        .tech-icons {
             position: absolute;
             width: 100%;
             height: 100%;
             pointer-events: none;
         }
 
-        .medical-icon {
+        .tech-icon {
             position: absolute;
             font-size: 2rem;
-            color: var(--primary-red);
+            color: var(--primary-blue);
             opacity: 0.1;
             animation: float 6s ease-in-out infinite;
         }
 
-        .medical-icon:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
-        .medical-icon:nth-child(2) { top: 20%; right: 20%; animation-delay: 1s; }
-        .medical-icon:nth-child(3) { bottom: 30%; left: 10%; animation-delay: 2s; }
-        .medical-icon:nth-child(4) { bottom: 15%; right: 15%; animation-delay: 3s; }
-        .medical-icon:nth-child(5) { top: 60%; left: 5%; animation-delay: 4s; }
-        .medical-icon:nth-child(6) { top: 70%; right: 10%; animation-delay: 5s; }
+        .tech-icon:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .tech-icon:nth-child(2) { top: 20%; right: 20%; animation-delay: 1s; }
+        .tech-icon:nth-child(3) { bottom: 30%; left: 10%; animation-delay: 2s; }
+        .tech-icon:nth-child(4) { bottom: 15%; right: 15%; animation-delay: 3s; }
+        .tech-icon:nth-child(5) { top: 60%; left: 5%; animation-delay: 4s; }
+        .tech-icon:nth-child(6) { top: 70%; right: 10%; animation-delay: 5s; }
 
-        .donation-stats {
+        .cms-stats {
             display: flex;
             gap: 3rem;
             margin-top: 2rem;
@@ -196,14 +197,14 @@
             background: rgba(255, 255, 255, 0.7);
             border-radius: 12px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.1);
             min-width: 100px;
         }
 
         .stat-number {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary-red);
+            color: var(--primary-blue);
             line-height: 1;
         }
 
@@ -246,12 +247,12 @@
             50% { transform: scale(1.05); }
         }
 
-        @keyframes dropFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
         }
 
-        @keyframes heartbeat {
+        @keyframes iconPulse {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.1); }
         }
@@ -275,18 +276,18 @@
         /* Responsive design */
         @media (max-width: 768px) {
             .brand-text {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
-            .donation-stats {
+            .cms-stats {
                 gap: 1.5rem;
             }
             
             .progress-container {
-                width: 250px;
+                width: 280px;
             }
             
-            .medical-icon {
+            .tech-icon {
                 font-size: 1.5rem;
             }
         }
@@ -295,23 +296,23 @@
 <body>
     <div id="app">
         <div id="loading-bg">
-            <div class="medical-icons">
-                <div class="medical-icon">🩺</div>
-                <div class="medical-icon">💉</div>
-                <div class="medical-icon">🏥</div>
-                <div class="medical-icon">🩹</div>
-                <div class="medical-icon">💊</div>
-                <div class="medical-icon">🔬</div>
+            <div class="tech-icons">
+                <div class="tech-icon">💻</div>
+                <div class="tech-icon">📊</div>
+                <div class="tech-icon">🔧</div>
+                <div class="tech-icon">📱</div>
+                <div class="tech-icon">🌐</div>
+                <div class="tech-icon">⚡</div>
             </div>
             
             <div class="loading-container">
                 <div class="logo-container">
-                    <div class="blood-drop"></div>
+                    <div class="cms-icon"></div>
                     <div>
                         <div class="brand-text">
-                            <span class="blood">Blood</span><span class="connect">Connect</span>
+                            <span class="tafsut">Tafsut</span><span class="cms">CMS</span>
                         </div>
-                        <div class="tagline">Saving Lives, One Drop at a Time</div>
+                        <div class="tagline">Powering Your Digital Content</div>
                     </div>
                 </div>
                 
@@ -319,21 +320,21 @@
                     <div class="progress-container">
                         <div class="progress-bar"></div>
                     </div>
-                    <div class="loading-text">Connecting donors and recipients...</div>
+                    <div class="loading-text">Initializing content management system...</div>
                 </div>
                 
-                <div class="donation-stats">
+                <div class="cms-stats">
                     <div class="stat-item">
-                        <div class="stat-number">1,247</div>
-                        <div class="stat-label">Lives Saved</div>
+                        <div class="stat-number">15K+</div>
+                        <div class="stat-label">Pages Managed</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">892</div>
-                        <div class="stat-label">Active Donors</div>
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Active Users</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Available</div>
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
                     </div>
                 </div>
             </div>
@@ -343,8 +344,8 @@
     <script type="module" src="/src/main.js"></script>
     <script>
         // Configuration pour intégrer avec Vue.js
-        const loaderColor = localStorage.getItem('sneat-initial-loader-bg') || '#fef2f2';
-        const primaryColor = localStorage.getItem('sneat-initial-loader-color') || '#dc2626';
+        const loaderColor = localStorage.getItem('tafsut-initial-loader-bg') || '#eff6ff';
+        const primaryColor = localStorage.getItem('tafsut-initial-loader-color') || '#3b82f6';
 
         if (loaderColor)
             document.documentElement.style.setProperty('--initial-loader-bg', loaderColor);
@@ -358,24 +359,25 @@
         const loadingText = document.querySelector('.loading-text');
         
         const loadingSteps = [
-            "Initializing Vue.js application...",
-            "Loading blood donation components...",
-            "Connecting to donor database...",
-            "Verifying blood compatibility systems...",
-            "Preparing your dashboard...",
-            "Ready to save lives!"
+            "Initializing TafsutCMS core...",
+            "Loading content management modules...",
+            "Connecting to database...",
+            "Setting up user permissions...",
+            "Loading dashboard components...",
+            "Finalizing configuration...",
+            "Ready to manage your content!"
         ];
         
         let currentStep = 0;
         
         const interval = setInterval(() => {
-            progress += Math.random() * 12 + 8;
+            progress += Math.random() * 10 + 8;
             
             if (progress >= 100) {
                 progress = 100;
                 clearInterval(interval);
                 
-                // Attendre que Vue.js soit complètement chargé
+                // Attendre que le système soit complètement chargé
                 setTimeout(() => {
                     const loadingBg = document.getElementById('loading-bg');
                     loadingBg.style.transition = 'opacity 0.5s ease-out';
@@ -383,7 +385,7 @@
                     
                     setTimeout(() => {
                         loadingBg.style.display = 'none';
-                        // Déclencher un événement pour Vue.js
+                        // Déclencher un événement pour le framework
                         document.dispatchEvent(new CustomEvent('loaderComplete'));
                     }, 500);
                 }, 1000);
@@ -398,26 +400,26 @@
                 currentStep = stepIndex;
                 loadingText.textContent = loadingSteps[stepIndex];
             }
-        }, 250);
+        }, 300);
         
         // Add some interactive elements
         document.addEventListener('DOMContentLoaded', () => {
-            const bloodDrop = document.querySelector('.blood-drop');
+            const cmsIcon = document.querySelector('.cms-icon');
             
-            if (bloodDrop) {
-                bloodDrop.addEventListener('mouseenter', () => {
-                    bloodDrop.style.transform = 'scale(1.1)';
-                    bloodDrop.style.filter = 'brightness(1.1)';
+            if (cmsIcon) {
+                cmsIcon.addEventListener('mouseenter', () => {
+                    cmsIcon.style.transform = 'scale(1.1)';
+                    cmsIcon.style.filter = 'brightness(1.1)';
                 });
                 
-                bloodDrop.addEventListener('mouseleave', () => {
-                    bloodDrop.style.transform = 'scale(1)';
-                    bloodDrop.style.filter = 'brightness(1)';
+                cmsIcon.addEventListener('mouseleave', () => {
+                    cmsIcon.style.transform = 'scale(1)';
+                    cmsIcon.style.filter = 'brightness(1)';
                 });
             }
         });
 
-        // Fonction pour cacher le loader (peut être appelée depuis Vue.js)
+        // Fonction pour cacher le loader (peut être appelée depuis le framework)
         window.hideLoader = function() {
             const loadingBg = document.getElementById('loading-bg');
             if (loadingBg) {
@@ -426,7 +428,7 @@
                 
                 setTimeout(() => {
                     loadingBg.style.display = 'none';
-                }, 5000);
+                }, 500);
             }
         };
     </script>
