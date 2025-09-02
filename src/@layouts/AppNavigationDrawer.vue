@@ -12,10 +12,10 @@
     <div class="drawer-header">
       <div class="logo-section">
         <div class="logo-icon">
-          <VIcon icon="mdi-blood-bag" size="32" class="brand-icon" />
+          <img src="@/assets/tafsutcms2.png" height="82" />
         </div>
         <div class="logo-text">
-          <h3 class="app-title">ShareBlood</h3>
+          <h3 class="app-title text-green-accent-3">TafsutCMS</h3>
         </div>
       </div>
       <VBtn
@@ -35,24 +35,22 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
-import { useDisplay } from 'vuetify'
+import { watch } from "vue";
+import { useDisplay } from "vuetify";
 
-const { mdAndDown } = useDisplay()
-const drawer = defineModel('drawer', { type: Boolean })
+const { mdAndDown } = useDisplay();
+const drawer = defineModel("drawer", { type: Boolean });
 
-watch(mdAndDown, val => {
-  if (!val) drawer.value = true
-})
+watch(mdAndDown, (val) => {
+  if (!val) drawer.value = true;
+});
 </script>
 
 <style lang="scss" scoped>
-
-
 .custom-drawer {
   background-color: rgba(var(--v-theme-background)) !important;
-  
-  color:rgba(var(--v-theme-on-background)) !important;
+
+  color: rgba(var(--v-theme-on-background)) !important;
   border-right: 1px solid rgba(var(--v-theme-on-surface), 0.12);
   @include transition-smooth;
 
@@ -65,19 +63,24 @@ watch(mdAndDown, val => {
     position: relative;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       height: 4px;
-      @include gradient-background(var(--v-theme-primary), rgba(var(--v-theme-primary), 0.6));
+      @include gradient-background(
+        var(--v-theme-primary),
+        rgba(var(--v-theme-primary), 0.6)
+      );
     }
 
     .logo-section {
       @include flex-center(row, 0.75rem);
       flex: 1;
       min-width: 0;
+      display: flex;
+      flex-direction:column;
 
       .logo-icon {
         @include flex-center;
@@ -85,20 +88,15 @@ watch(mdAndDown, val => {
         @include hover-elevation(3);
         width: 48px;
         height: 48px;
-        @include gradient-background(var(--v-theme-primary), rgba(var(--v-theme-primary), 0.8));
+        @include gradient-background(
+          var(--v-theme-primary),
+          rgba(var(--v-theme-primary), 0.8)
+        );
         color: var(--v-theme-on-primary);
         box-shadow: 0 4px 12px rgba(var(--v-theme-primary), 0.3);
         position: relative;
 
-        &::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          @include border-radius(12px);
-          @include gradient-background(transparent, rgba(var(--v-theme-on-primary), 0.1));
-          opacity: 0;
-          @include transition-smooth(opacity);
-        }
+      
 
         &:hover::after {
           opacity: 1;
@@ -122,7 +120,10 @@ watch(mdAndDown, val => {
 
         .app-subtitle {
           font-size: 0.875rem;
-          color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity, 0.68));
+          color: rgba(
+            var(--v-theme-on-surface),
+            var(--v-medium-emphasis-opacity, 0.68)
+          );
           font-weight: 400;
           @include text-truncate;
           @include transition-smooth(color);
@@ -133,7 +134,10 @@ watch(mdAndDown, val => {
     .close-btn {
       @include border-radius(6px);
       @include transition-smooth;
-      color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity, 0.68));
+      color: rgba(
+        var(--v-theme-on-surface),
+        var(--v-medium-emphasis-opacity, 0.68)
+      );
 
       &:hover {
         color: var(--v-theme-on-surface);
@@ -172,7 +176,7 @@ watch(mdAndDown, val => {
 
     &::before,
     &::after {
-      content: '';
+      content: "";
       position: sticky;
       display: block;
       height: 8px;
@@ -182,7 +186,11 @@ watch(mdAndDown, val => {
 
     &::before {
       top: 0;
-      background: linear-gradient(to bottom, var(--v-theme-surface), transparent);
+      background: linear-gradient(
+        to bottom,
+        var(--v-theme-surface),
+        transparent
+      );
     }
 
     &::after {
@@ -288,14 +296,13 @@ watch(mdAndDown, val => {
   }
 }
 
-  
-    .brand-icon {
-      color: rgba(var(--v-theme-primary));
-      filter: drop-shadow(0 2px 4px rgba(var(--v-theme-primary), 0.3));
-      transition: all 0.3s ease;
-      
-      &:hover {
-        transform: rotate(10deg) scale(1.1);
-      }
-    }
+.brand-icon {
+  color: rgba(var(--v-theme-primary));
+  filter: drop-shadow(0 2px 4px rgba(var(--v-theme-primary), 0.3));
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: rotate(10deg) scale(1.1);
+  }
+}
 </style>

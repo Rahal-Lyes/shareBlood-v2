@@ -21,8 +21,7 @@
         </VBtn>
         
         <div class="brand-content">
-          <VIcon class="brand-icon" size="32">mdi-blood-bag </VIcon>
-          <span class="brand-text">ShareBlood</span>
+          <span class="brand-text">TafsutCMS</span>
         </div>
       </div>
 
